@@ -1,0 +1,191 @@
+// This is your Prisma schema file for QuestForge AI Habit RPG
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum TaskType {
+  DAILY
+  HABIT
+  TODO
+}
+
+enum TaskDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum ItemType {
+  WEAPON
+  ARMOR
+  ACCESSORY
+  CONSUMABLE
+  QUEST_ITEM
+  COSMETIC
+}
+
+// User model - Core user data and character information
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  password      String
+  username      String   @unique
+  characterName String
+  level         Int      @default(1)
+  xp            Int      @default(0)
+  stats         Json     @default("{}")
+  preferences   Json     @default("{}")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  tasks             Task[]
+  storyProgressions StoryProgression[]
+  completedTasks    CompletedTask[]
+  inventory         CharacterInventory[]
+  aiGenerationLogs  AIGenerationLog[]
+
+  // Indexes for performance
+  @@index([email])
+  @@index([username])
+  @@index([level])
+  @@index([createdAt])
+  @@map("users")
+}
+
+// Task model - User tasks, habits, and todos
+model Task {
+  id             String         @id @default(cuid())
+  userId         String
+  title          String
+  description    String?
+  type           TaskType
+  difficulty     TaskDifficulty
+  category       String
+  recurrenceRule String?
+  streakCount    Int            @default(0)
+  lastCompleted  DateTime?
+  isActive       Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  // Relations
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  completedTasks CompletedTask[]
+
+  // Indexes for performance
+  @@index([userId])
+  @@index([type])
+  @@index([difficulty])
+  @@index([category])
+  @@index([isActive])
+  @@index([lastCompleted])
+  @@index([createdAt])
+  @@map("tasks")
+}
+
+// StoryProgression model - Tracks user's story progress
+model StoryProgression {
+  id             String   @id @default(cuid())
+  userId         String
+  storyId        String
+  currentChapter Int      @default(1)
+  chapterData    Json     @default("{}")
+  branchesTaken  Json     @default("[]")
+  lastUpdated    DateTime @updatedAt
+  createdAt      DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Unique constraint to ensure one story progression per user per story
+  @@unique([userId, storyId])
+  @@index([userId])
+  @@index([storyId])
+  @@index([currentChapter])
+  @@index([lastUpdated])
+  @@map("story_progressions")
+}
+
+// CompletedTask model - Tracks task completions and rewards
+model CompletedTask {
+  id            String   @id @default(cuid())
+  userId        String
+  taskId        String
+  completedAt   DateTime @default(now())
+  xpGained      Int      @default(0)
+  storyUnlocked Boolean  @default(false)
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  // Indexes for performance
+  @@index([userId])
+  @@index([taskId])
+  @@index([completedAt])
+  @@index([storyUnlocked])
+  @@map("completed_tasks")
+}
+
+// CharacterInventory model - Character items and equipment
+model CharacterInventory {
+  id       String   @id @default(cuid())
+  userId   String
+  itemId   String
+  itemName String
+  itemType ItemType
+  equipped Boolean  @default(false)
+  quantity Int      @default(1)
+  metadata Json     @default("{}")
+  obtainedAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Unique constraint to prevent duplicate items (except stackable items)
+  @@unique([userId, itemId])
+  @@index([userId])
+  @@index([itemType])
+  @@index([equipped])
+  @@index([obtainedAt])
+  @@map("character_inventory")
+}
+
+// AIGenerationLog model - Tracks AI API usage and costs
+model AIGenerationLog {
+  id             String   @id @default(cuid())
+  userId         String
+  prompt         String
+  response       String
+  modelUsed      String
+  tokensUsed     Int      @default(0)
+  cost           Float    @default(0.0)
+  generationTime Int      @default(0) // in milliseconds
+  purpose        String?  // e.g., "story_generation", "character_dialogue", etc.
+  success        Boolean  @default(true)
+  errorMessage   String?
+  createdAt      DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Indexes for performance and analytics
+  @@index([userId])
+  @@index([modelUsed])
+  @@index([purpose])
+  @@index([success])
+  @@index([createdAt])
+  @@index([cost])
+  @@index([tokensUsed])
+  @@map("ai_generation_logs")
+}
