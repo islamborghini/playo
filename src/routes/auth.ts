@@ -1,7 +1,10 @@
 import { Router } from 'express';
+import { AuthController } from '@/controllers/authController';
+import { authenticate } from '@/middleware/auth';
 import { ApiResponse } from '@/types';
 
 const router = Router();
+const authController = new AuthController();
 
 // GET /api/auth - Get authentication info
 router.get('/', (_req, res) => {
@@ -13,7 +16,7 @@ router.get('/', (_req, res) => {
         login: 'POST /api/auth/login',
         register: 'POST /api/auth/register',
         logout: 'POST /api/auth/logout',
-        refresh: 'POST /api/auth/refresh',
+        profile: 'GET /api/auth/profile',
       },
     },
     timestamp: new Date().toISOString(),
@@ -21,10 +24,16 @@ router.get('/', (_req, res) => {
   res.json(response);
 });
 
-// TODO: Implement authentication routes
-// router.post('/login', authController.login);
-// router.post('/register', authController.register);
-// router.post('/logout', authController.logout);
-// router.post('/refresh', authController.refresh);
+// POST /api/auth/login - User login
+router.post('/login', authController.login.bind(authController));
+
+// POST /api/auth/register - User registration
+router.post('/register', authController.register.bind(authController));
+
+// GET /api/auth/profile - Get current user profile (protected)
+router.get('/profile', authenticate, authController.getProfile.bind(authController));
+
+// POST /api/auth/logout - User logout
+router.post('/logout', authenticate, authController.logout.bind(authController));
 
 export default router;

@@ -44,6 +44,17 @@ export interface ApiError {
 
 // Express Request/Response types with authentication
 export interface AuthenticatedRequest extends Request {
+  user: {
+    id: string;
+    email: string;
+    username: string;
+    level: number;
+    characterName: string;
+  };
+}
+
+// Optional authenticated request (middleware might not require auth)
+export interface OptionalAuthRequest extends Request {
   user?: {
     id: string;
     email: string;
