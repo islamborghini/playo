@@ -7,8 +7,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 // Enums
@@ -42,8 +42,8 @@ model User {
   characterName String
   level         Int      @default(1)
   xp            Int      @default(0)
-  stats         Json     @default("{}")
-  preferences   Json     @default("{}")
+  stats         String   @default("{}")
+  preferences   String   @default("{}")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -99,8 +99,8 @@ model StoryProgression {
   userId         String
   storyId        String
   currentChapter Int      @default(1)
-  chapterData    Json     @default("{}")
-  branchesTaken  Json     @default("[]")
+  chapterData    String   @default("{}")
+  branchesTaken  String   @default("[]")
   lastUpdated    DateTime @updatedAt
   createdAt      DateTime @default(now())
 
@@ -146,7 +146,7 @@ model CharacterInventory {
   itemType ItemType
   equipped Boolean  @default(false)
   quantity Int      @default(1)
-  metadata Json     @default("{}")
+  metadata String   @default("{}")
   obtainedAt DateTime @default(now())
 
   // Relations

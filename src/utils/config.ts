@@ -98,13 +98,13 @@ export const config: EnvironmentConfig = {
   PORT: getEnvVarAsNumber('PORT', 3000),
   HOST: getEnvVar('HOST', 'localhost'),
 
-  // Database
+  // Database (optional for SQLite)
   DB_HOST: getEnvVar('DB_HOST', 'localhost'),
   DB_PORT: getEnvVarAsNumber('DB_PORT', 5432),
-  DB_NAME: getEnvVar('DB_NAME'),
-  DB_USER: getEnvVar('DB_USER'),
-  DB_PASSWORD: getEnvVar('DB_PASSWORD'),
-  DATABASE_URL: getEnvVar('DATABASE_URL'),
+  DB_NAME: getEnvVar('DB_NAME', 'questforge_dev'),
+  DB_USER: getEnvVar('DB_USER', ''),
+  DB_PASSWORD: getEnvVar('DB_PASSWORD', ''),
+  DATABASE_URL: getEnvVar('DATABASE_URL', 'file:./dev.db'),
 
   // Redis
   REDIS_HOST: getEnvVar('REDIS_HOST', 'localhost'),
