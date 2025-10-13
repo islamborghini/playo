@@ -482,4 +482,94 @@ export class AuthController {
   async getProfile(req: Request, res: Response): Promise<void> {
     return this.getCurrentUser(req, res);
   }
+
+  /**
+   * Update user profile information
+   */
+  async updateProfile(req: Request, res: Response): Promise<void> {
+    try {
+      const user = (req as any).user;
+      const { displayName, characterName, preferences, stats } = req.body;
+
+      // Validate input - at least one field must be provided
+      if (!displayName && !characterName && !preferences && !stats) {
+        const response: ApiResponse = {
+          success: false,
+          message: 'At least one field must be provided for update',
+          error: 'NO_UPDATE_FIELDS',
+          timestamp: new Date().toISOString(),
+        };
+        res.status(400).json(response);
+        return;
+      }
+
+      // Prepare update data
+      const updateData: any = {};
+      
+      // Map displayName to characterName (since User model only has characterName)
+      if (displayName !== undefined) {
+        updateData.characterName = displayName;
+      }
+      
+      if (characterName !== undefined) {
+        updateData.characterName = characterName;
+      }
+      
+      if (preferences !== undefined) {
+        updateData.preferences = typeof preferences === 'string' 
+          ? preferences 
+          : JSON.stringify(preferences);
+      }
+      
+      if (stats !== undefined) {
+        updateData.stats = typeof stats === 'string' 
+          ? stats 
+          : JSON.stringify(stats);
+      }
+
+      // Update user profile
+      const updatedUser = await userService.updateUser(user.id, updateData);
+
+      if (!updatedUser) {
+        const response: ApiResponse = {
+          success: false,
+          message: 'Failed to update profile',
+          error: 'UPDATE_FAILED',
+          timestamp: new Date().toISOString(),
+        };
+        res.status(500).json(response);
+        return;
+      }
+
+      const response: ApiResponse = {
+        success: true,
+        message: 'Profile updated successfully',
+        data: {
+          user: {
+            id: updatedUser.id,
+            email: updatedUser.email,
+            username: updatedUser.username,
+            characterName: updatedUser.characterName,
+            level: updatedUser.level,
+            xp: updatedUser.xp,
+            stats: updatedUser.stats,
+            preferences: updatedUser.preferences,
+          },
+        },
+        timestamp: new Date().toISOString(),
+      };
+
+      res.status(200).json(response);
+    } catch (error) {
+      console.error('Update profile error:', error);
+      
+      const response: ApiResponse = {
+        success: false,
+        message: 'Internal server error during profile update',
+        error: 'INTERNAL_ERROR',
+        timestamp: new Date().toISOString(),
+      };
+      res.status(500).json(response);
+    }
+  }
 }

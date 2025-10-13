@@ -18,6 +18,7 @@ router.get('/', (_req, res) => {
         refresh: 'POST /api/auth/refresh',
         me: 'GET /api/auth/me',
         profile: 'GET /api/auth/profile',
+        updateProfile: 'PUT /api/auth/profile',
         changePassword: 'PUT /api/auth/change-password',
         logout: 'POST /api/auth/logout',
       },
@@ -41,6 +42,9 @@ router.get('/me', authenticate, authController.getCurrentUser.bind(authControlle
 
 // GET /api/auth/profile - Get current user profile (protected, legacy)
 router.get('/profile', authenticate, authController.getProfile.bind(authController));
+
+// PUT /api/auth/profile - Update user profile (protected)
+router.put('/profile', authenticate, authController.updateProfile.bind(authController));
 
 // PUT /api/auth/change-password - Change user password (protected)
 router.put('/change-password', authenticate, authController.changePassword.bind(authController));
