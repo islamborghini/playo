@@ -26,7 +26,7 @@ NEW_PASSWORD="newSecurePassword123"
 echo "Changing password from current to: $NEW_PASSWORD"
 echo ""
 
-RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" -X POST http://localhost:3000/api/auth/change-password \
+RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" -X PUT http://localhost:3000/api/auth/change-password \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d "{
