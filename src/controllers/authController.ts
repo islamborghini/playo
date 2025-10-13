@@ -109,14 +109,10 @@ export class AuthController {
         return;
       }
 
-      // Hash password
-      const saltRounds = 12;
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-      // Create user with hashed password
+      // Create user (UserService will handle password hashing)
       const newUser = await userService.createUser({
         email,
-        password: hashedPassword,
+        password, // Pass plain password - UserService will hash it
         username,
         characterName: username, // Default character name to username
       });

@@ -30,10 +30,14 @@ export const authenticate = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    console.log('🔐 Auth middleware - Authorization header:', req.headers.authorization);
+    
     // Extract token from Authorization header
     const token = extractTokenFromHeader(req.headers.authorization);
+    console.log('🔐 Extracted token:', token ? `${token.substring(0, 20)}...` : 'null');
     
     if (!token) {
+      console.log('❌ No token found');
       const errorResponse: ApiResponse = {
         success: false,
         message: 'Access token is required',
@@ -47,18 +51,33 @@ export const authenticate = async (
     // Verify the token
     let decodedToken;
     try {
+      console.log('🔐 Verifying token...');
       decodedToken = verifyAccessToken(token);
+      console.log('✅ Token verified, user ID:', decodedToken.userId);
     } catch (error) {
+      console.log('❌ Token verification failed:', error);
+      
       let errorMessage = 'Invalid access token';
       let errorCode = 'INVALID_TOKEN';
 
       if (error instanceof Error) {
+        console.log('Error message:', error.message);
         switch (error.message) {
           case 'ACCESS_TOKEN_EXPIRED':
             errorMessage = 'Access token has expired';
             errorCode = 'TOKEN_EXPIRED';
             break;
           case 'INVALID_ACCESS_TOKEN':
+            errorMessage = 'Invalid access token format';
+            errorCode = 'INVALID_TOKEN_FORMAT';
+            break;
+          case 'jwt expired':
+            errorMessage = 'Access token has expired';
+            errorCode = 'TOKEN_EXPIRED';
+            break;
+          case 'invalid token':
+          case 'jwt malformed':
+          case 'invalid signature':
             errorMessage = 'Invalid access token format';
             errorCode = 'INVALID_TOKEN_FORMAT';
             break;

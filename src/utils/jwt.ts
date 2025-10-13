@@ -27,6 +27,8 @@ export const generateTokens = (payload: JWTPayload): TokenPair => {
     throw new Error('JWT secrets are not configured');
   }
 
+  console.log('🔑 Generating tokens for user:', payload.userId);
+
   // Type assertion workaround for JWT library compatibility
   const accessToken = (jwt as any).sign(payload, config.JWT_SECRET, {
     expiresIn: config.JWT_EXPIRES_IN,
@@ -40,6 +42,7 @@ export const generateTokens = (payload: JWTPayload): TokenPair => {
     }
   );
 
+  console.log('✅ Tokens generated successfully');
   return { accessToken, refreshToken };
 };
 
@@ -47,14 +50,16 @@ export const generateTokens = (payload: JWTPayload): TokenPair => {
  * Verify access token
  */
 export const verifyAccessToken = (token: string): DecodedToken => {
+  console.log('🔍 JWT verification - token length:', token.length);
+  console.log('🔍 JWT secret configured:', !!config.JWT_SECRET);
+  
   try {
-    const decoded = jwt.verify(token, config.JWT_SECRET, {
-      issuer: config.APP_NAME,
-      audience: config.APP_URL,
-    }) as DecodedToken;
-    
+    const decoded = jwt.verify(token, config.JWT_SECRET) as DecodedToken;
+    console.log('✅ JWT decoded successfully:', decoded.userId);
     return decoded;
   } catch (error) {
+    console.log('❌ JWT verification error:', error);
+    
     if (error instanceof jwt.TokenExpiredError) {
       throw new Error('ACCESS_TOKEN_EXPIRED');
     }
@@ -70,10 +75,7 @@ export const verifyAccessToken = (token: string): DecodedToken => {
  */
 export const verifyRefreshToken = (token: string): { userId: string; iat: number; exp: number } => {
   try {
-    const decoded = jwt.verify(token, config.JWT_REFRESH_SECRET, {
-      issuer: config.APP_NAME,
-      audience: config.APP_URL,
-    }) as { userId: string; iat: number; exp: number };
+    const decoded = jwt.verify(token, config.JWT_REFRESH_SECRET) as { userId: string; iat: number; exp: number };
     
     return decoded;
   } catch (error) {
