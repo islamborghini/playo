@@ -1,6 +1,6 @@
-# QuestForge API Test Suite
+# playo API Test Suite
 
-This directory contains comprehensive cURL tests for all available QuestForge API endpoints.
+This directory contains comprehensive cURL tests for all available playo API endpoints.
 
 ## 📁 Directory Structure
 

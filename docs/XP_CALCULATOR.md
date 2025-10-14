@@ -1,6 +1,6 @@
-# QuestForge XP Calculator System
+# playo XP Calculator System
 
-The QuestForge XP Calculator is a comprehensive RPG progression system that gamifies task completion through experience points, level progression, stat bonuses, and streak multipliers.
+The playo XP Calculator is a comprehensive RPG progression system that gamifies task completion through experience points, level progression, stat bonuses, and streak multipliers.
 
 ## Core Features
 

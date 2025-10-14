@@ -1,4 +1,4 @@
-# QuestForge - AI-Powered Habit Tracking RPG
+# playo - AI-Powered Habit Tracking RPG
 
 This is a Node.js TypeScript project for an AI-powered habit tracking RPG game.
 

@@ -1,4 +1,4 @@
-// This is your Prisma schema file for QuestForge AI Habit RPG
+// This is your Prisma schema file for playo AI Habit RPG
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {

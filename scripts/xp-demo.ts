@@ -2,7 +2,7 @@
 import { XPCalculator } from '../src/utils/xpCalculator';
 import { TaskDifficulty } from '../src/generated/prisma';
 
-console.log('🎮 QuestForge XP Calculator Demo\n');
+console.log('🎮 playo XP Calculator Demo\n');
 
 // Demo user starting stats
 let totalXP = 0;

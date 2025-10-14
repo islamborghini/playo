@@ -3,7 +3,7 @@ import { RPGProgressionService } from '../src/utils/rpgProgressionService';
 import { XPCalculator } from '../src/utils/xpCalculator';
 import { TaskDifficulty, TaskType } from '../src/generated/prisma';
 
-console.log('🎮 QuestForge RPG Integration Demo\n');
+console.log('🎮 playo RPG Integration Demo\n');
 
 // Example usage with a mock user ID
 const DEMO_USER_ID = 'demo-user-123';

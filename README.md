@@ -1,10 +1,10 @@
-# QuestForge - AI-Powered Habit Tracking RPG
+# playo - AI-Powered Habit Tracking RPG
 
 > Transform your daily habits into an epic adventure with AI-generated stories that adapt to your progress.
 
-## 🎮 What is QuestForge?
+## 🎮 What is playo?
 
-QuestForge is a revolutionary habit tracking application that gamifies your daily routines through AI-powered storytelling. As you complete tasks and build habits, a personalized narrative unfolds, creating a unique RPG experience where your real-world progress drives an engaging fantasy adventure.
+playo is a revolutionary habit tracking application that gamifies your daily routines through AI-powered storytelling. As you complete tasks and build habits, a personalized narrative unfolds, creating a unique RPG experience where your real-world progress drives an engaging fantasy adventure.
 
 ## ✨ Features
 
@@ -36,7 +36,7 @@ QuestForge is a revolutionary habit tracking application that gamifies your dail
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd questforge
+   cd playo
    ```
 
 2. **Install dependencies**
@@ -146,7 +146,7 @@ PORT=3000
 HOST=localhost
 
 # Database
-DATABASE_URL=postgresql://user:password@localhost:5432/questforge_dev
+DATABASE_URL=postgresql://user:password@localhost:5432/playo_dev
 
 # Redis
 REDIS_HOST=localhost
@@ -188,4 +188,4 @@ For support, please open an issue on GitHub or contact the development team.
 
 ---
 
-**QuestForge** - Where habits become adventures! 🗡️✨
+**playo** - Where habits become adventures! 🗡️✨

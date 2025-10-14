@@ -10,10 +10,10 @@ async function main(): Promise<void> {
   const hashedPassword = await bcrypt.hash('demo123', 12);
   
   const demoUser = await prisma.user.upsert({
-    where: { email: 'demo@questforge.com' },
+    where: { email: 'demo@playo.com' },
     update: {},
     create: {
-      email: 'demo@questforge.com',
+      email: 'demo@playo.com',
       password: hashedPassword,
       username: 'demo_hero',
       characterName: 'Aria the Brave',

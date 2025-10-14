@@ -1,6 +1,6 @@
-# QuestForge Streak Tracking Service
+# playo Streak Tracking Service
 
-The QuestForge Streak Tracking Service provides comprehensive streak management for habit tracking with timezone support, grace periods, milestone rewards, and flexible recurrence patterns.
+The playo Streak Tracking Service provides comprehensive streak management for habit tracking with timezone support, grace periods, milestone rewards, and flexible recurrence patterns.
 
 ## Core Features
 
@@ -342,7 +342,7 @@ npm test -- streakService.test.ts
 npx ts-node -r tsconfig-paths/register scripts/streak-demo.ts
 ```
 
-## Integration with QuestForge
+## Integration with playo
 
 ### Task Service Integration
 ```typescript

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🔐 QuestForge Authentication Test Suite"
+echo "🔐 playo Authentication Test Suite"
 echo "======================================="
 echo ""
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "📝 QuestForge Task Management Test Suite"
+echo "📝 playo Task Management Test Suite"
 echo "========================================"
 echo ""
 

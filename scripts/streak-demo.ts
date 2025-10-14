@@ -9,7 +9,7 @@ import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-console.log('🔥 QuestForge Streak Tracking Service Demo\n');
+console.log('🔥 playo Streak Tracking Service Demo\n');
 
 // Create service instance
 const streakService = new StreakService();

@@ -88,7 +88,7 @@ class App {
     this.app.get('/api', (_req: Request, res: Response) => {
       const apiInfo: ApiResponse = {
         success: true,
-        message: 'QuestForge API',
+        message: 'playo API',
         data: {
           name: config.APP_NAME,
           version: config.APP_VERSION,

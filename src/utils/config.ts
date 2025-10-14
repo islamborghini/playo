@@ -101,7 +101,7 @@ export const config: EnvironmentConfig = {
   // Database (optional for SQLite)
   DB_HOST: getEnvVar('DB_HOST', 'localhost'),
   DB_PORT: getEnvVarAsNumber('DB_PORT', 5432),
-  DB_NAME: getEnvVar('DB_NAME', 'questforge_dev'),
+  DB_NAME: getEnvVar('DB_NAME', 'playo_dev'),
   DB_USER: getEnvVar('DB_USER', ''),
   DB_PASSWORD: getEnvVar('DB_PASSWORD', ''),
   DATABASE_URL: getEnvVar('DATABASE_URL', 'file:./dev.db'),
@@ -144,7 +144,7 @@ export const config: EnvironmentConfig = {
   SESSION_SECRET: getEnvVar('SESSION_SECRET'),
 
   // Application
-  APP_NAME: getEnvVar('APP_NAME', 'QuestForge'),
+  APP_NAME: getEnvVar('APP_NAME', 'playo'),
   APP_VERSION: getEnvVar('APP_VERSION', '1.0.0'),
   APP_URL: getEnvVar('APP_URL', 'http://localhost:3000'),
 };

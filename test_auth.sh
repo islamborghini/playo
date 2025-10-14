@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🔐 Testing QuestForge Authentication Flow"
+echo "🔐 Testing playo Authentication Flow"
 echo "======================================="
 
 # Login and extract token automatically
@@ -8,7 +8,7 @@ echo "🔑 Logging in..."
 LOGIN_RESPONSE=$(curl -s -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "hero@questforge.com",
+    "email": "hero@playo.com",
     "password": "QuestMaster123!"
   }')
 

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# QuestForge API Test Suite - Complete cURL Test Runner
+# playo API Test Suite - Complete cURL Test Runner
 # This script runs all API endpoint tests in the correct order
 
 set -e  # Exit on any error
 
-echo "🚀 QuestForge API Test Suite"
+echo "🚀 playo API Test Suite"
 echo "============================"
 echo "Testing all available endpoints..."
 echo ""
@@ -129,7 +129,7 @@ TOTAL_SUITE_FAILURES=$((FAILED_TESTS + AUTH_FAILED + TASK_FAILED))
 if [ $TOTAL_SUITE_FAILURES -eq 0 ]; then
     echo ""
     echo -e "${GREEN}🎉 ALL TEST SUITES PASSED SUCCESSFULLY!${NC}"
-    echo -e "${BLUE}🎮 QuestForge API Status: FULLY OPERATIONAL${NC}"
+    echo -e "${BLUE}🎮 playo API Status: FULLY OPERATIONAL${NC}"
     echo -e "${GREEN}✅ Authentication & Authorization${NC}"
     echo -e "${GREEN}✅ Task Management & RPG System${NC}"
     echo -e "${GREEN}✅ API Documentation Endpoints${NC}"

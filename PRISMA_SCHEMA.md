@@ -1,6 +1,6 @@
-# QuestForge Database Schema
+# playo Database Schema
 
-This document describes the database schema for the QuestForge AI-powered habit tracking RPG.
+This document describes the database schema for the playo AI-powered habit tracking RPG.
 
 ## Overview
 
@@ -251,7 +251,7 @@ npm run db:seed
 
 Required environment variables:
 ```env
-DATABASE_URL="postgresql://user:password@localhost:5432/questforge_dev"
+DATABASE_URL="postgresql://user:password@localhost:5432/playo_dev"
 ```
 
 ## Best Practices
