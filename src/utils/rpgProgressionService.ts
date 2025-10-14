@@ -1,5 +1,6 @@
 import { XPCalculator, StatBonuses } from './xpCalculator';
 import { TaskDifficulty } from '@/generated/prisma';
+import { characterService } from '@/services/characterService';
 import prisma from './prisma';
 
 export interface TaskCompletionResult {
@@ -32,7 +33,7 @@ export class RPGProgressionService {
     difficulty: TaskDifficulty,
     category: string
   ): Promise<TaskCompletionResult> {
-    // Get current user stats
+    // Get current user stats and streak info
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -64,31 +65,24 @@ export class RPGProgressionService {
       category
     );
 
-    // Update user stats with bonuses
-    const newStats = XPCalculator.applyStatBonuses(
-      {
-        strength: userStats.strength || 5,
-        wisdom: userStats.wisdom || 5,
-        agility: userStats.agility || 5,
-        endurance: userStats.endurance || 5,
-        luck: userStats.luck || 5,
-      },
+    // Use CharacterService to add experience and handle progression
+    await characterService.addExperience(
+      userId,
+      result.finalXP,
+      `Task completion: ${category} ${difficulty}`,
       result.statBonuses
     );
 
-    // Update stats object
+    // Update streak in user stats
     const updatedStats: UserStats = {
-      ...newStats,
+      ...userStats,
       currentStreak: (userStats.currentStreak || 0) + 1,
       lastActiveDate: new Date(),
     };
 
-    // Update user in database
     await prisma.user.update({
       where: { id: userId },
       data: {
-        xp: result.totalXPAfter,
-        level: result.levelAfter,
         stats: JSON.stringify(updatedStats),
         updatedAt: new Date(),
       },

@@ -157,4 +157,62 @@ export interface AIGenerationResponse {
   generationTime: number;
 }
 
+// Character progression types
+export interface CharacterSheet {
+  user: Pick<User, 'id' | 'username' | 'characterName' | 'level' | 'xp'>;
+  stats: UserStats;
+  effectiveStats: UserStats;
+  equipment: EquippedItems;
+  inventory: CharacterInventory[];
+  availableStatPoints: number;
+  xpForNextLevel: number;
+  totalXP: number;
+}
+
+export interface EquippedItems {
+  weapon?: CharacterInventory;
+  armor?: CharacterInventory;
+  accessory?: CharacterInventory;
+}
+
+export interface UserStats {
+  strength: number;
+  wisdom: number;
+  agility: number;
+  endurance: number;
+  luck: number;
+}
+
+export interface StatUpdateRequest {
+  strength?: number;
+  wisdom?: number;
+  agility?: number;
+  endurance?: number;
+  luck?: number;
+}
+
+export interface LevelUpResult {
+  oldLevel: number;
+  newLevel: number;
+  statPointsGained: number;
+  newFeaturesUnlocked: string[];
+  totalStatPoints: number;
+}
+
+export interface ExperienceResult {
+  xpGained: number;
+  totalXP: number;
+  levelUpResult?: LevelUpResult;
+  statBonuses: StatBonuses;
+  source: string;
+}
+
+export interface StatBonuses {
+  strength?: number;
+  wisdom?: number;
+  agility?: number;
+  endurance?: number;
+  luck?: number;
+}
+
 export default {};
