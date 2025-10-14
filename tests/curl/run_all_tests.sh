@@ -21,6 +21,10 @@ NC='\033[0m' # No Color
 TOTAL_TESTS=0
 PASSED_TESTS=0
 FAILED_TESTS=0
+AUTH_PASSED=0
+AUTH_FAILED=0
+TASK_PASSED=0
+TASK_FAILED=0
 
 # Function to run a test and track results
 run_test() {
@@ -72,31 +76,71 @@ run_test "./tests/curl/info/users_info.sh" "Users Info Endpoint"
 run_test "./tests/curl/info/tasks_info.sh" "Tasks Info Endpoint" 
 run_test "./tests/curl/info/stories_info.sh" "Stories Info Endpoint"
 
-# Run Authentication Tests (in sequence due to dependencies)
-echo -e "${YELLOW}🔐 TESTING AUTHENTICATION ENDPOINTS${NC}"
-echo "======================================="
-run_test "./tests/curl/auth/01_register.sh" "User Registration"
-run_test "./tests/curl/auth/02_login.sh" "User Login"
-run_test "./tests/curl/auth/03_refresh.sh" "Token Refresh"
-run_test "./tests/curl/auth/04_get_current_user.sh" "Get Current User"
-run_test "./tests/curl/auth/05_update_profile.sh" "Update Profile"
-run_test "./tests/curl/auth/06_change_password.sh" "Change Password"
-run_test "./tests/curl/auth/07_logout.sh" "User Logout"
+# Run Authentication Test Suite
+echo -e "${YELLOW}🔐 RUNNING AUTHENTICATION TEST SUITE${NC}"
+echo "======================================"
+cd tests/curl/auth
+if ./run_auth_tests.sh; then
+    echo -e "${GREEN}✅ Authentication Test Suite - PASSED${NC}"
+    AUTH_PASSED=1
+else
+    echo -e "${RED}❌ Authentication Test Suite - FAILED${NC}"
+    AUTH_FAILED=1
+fi
+cd ../../../
+
+# Run Task Management Test Suite  
+echo -e "${YELLOW}📝 RUNNING TASK MANAGEMENT TEST SUITE${NC}"
+echo "====================================="
+cd tests/curl/tasks
+if ./run_task_tests.sh; then
+    echo -e "${GREEN}✅ Task Management Test Suite - PASSED${NC}"
+    TASK_PASSED=1
+else
+    echo -e "${RED}❌ Task Management Test Suite - FAILED${NC}"
+    TASK_FAILED=1
+fi
+cd ../../../
 
 # Test Summary
 echo "======================================="
-echo -e "${BLUE}📊 TEST SUMMARY${NC}"
+echo -e "${BLUE}📊 COMPLETE TEST SUMMARY${NC}"
 echo "======================================="
-echo "Total Tests: $TOTAL_TESTS"
+echo "Info Endpoint Tests: $TOTAL_TESTS"
 echo -e "Passed: ${GREEN}$PASSED_TESTS${NC}"
 echo -e "Failed: ${RED}$FAILED_TESTS${NC}"
+echo ""
 
-if [ $FAILED_TESTS -eq 0 ]; then
+if [ ${AUTH_PASSED:-0} -eq 1 ]; then
+    echo -e "🔐 Authentication Suite: ${GREEN}PASSED${NC}"
+else
+    echo -e "🔐 Authentication Suite: ${RED}FAILED${NC}"
+fi
+
+if [ ${TASK_PASSED:-0} -eq 1 ]; then
+    echo -e "📝 Task Management Suite: ${GREEN}PASSED${NC}"
+else
+    echo -e "📝 Task Management Suite: ${RED}FAILED${NC}"
+fi
+
+echo ""
+TOTAL_SUITE_FAILURES=$((FAILED_TESTS + AUTH_FAILED + TASK_FAILED))
+
+if [ $TOTAL_SUITE_FAILURES -eq 0 ]; then
     echo ""
-    echo -e "${GREEN}🎉 All tests passed successfully!${NC}"
+    echo -e "${GREEN}🎉 ALL TEST SUITES PASSED SUCCESSFULLY!${NC}"
+    echo -e "${BLUE}🎮 QuestForge API Status: FULLY OPERATIONAL${NC}"
+    echo -e "${GREEN}✅ Authentication & Authorization${NC}"
+    echo -e "${GREEN}✅ Task Management & RPG System${NC}"
+    echo -e "${GREEN}✅ API Documentation Endpoints${NC}"
+    echo ""
+    echo -e "${YELLOW}🚀 Ready for production deployment!${NC}"
     exit 0
 else
     echo ""
-    echo -e "${RED}⚠️  Some tests failed. Check the output above for details.${NC}"
+    echo -e "${RED}⚠️  SOME TEST SUITES FAILED${NC}"
+    echo -e "${YELLOW}💡 Run individual test suites for detailed debugging:${NC}"
+    echo "  • ./tests/curl/auth/run_auth_tests.sh"
+    echo "  • ./tests/curl/tasks/run_task_tests.sh"
     exit 1
 fi
