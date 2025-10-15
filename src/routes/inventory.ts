@@ -32,7 +32,7 @@ router.get('/stats', authenticate, async (req, res) => {
   try {
     const userId = (req as AuthenticatedRequest).user.id;
     const stats = await inventoryService.getInventoryStats(userId);
-    return res.json(stats);
+    return res.json({ success: true, stats });
   } catch (error) {
     return res.status(500).json({ 
       error: 'Failed to fetch inventory stats',
@@ -174,7 +174,7 @@ router.put('/items/:itemId/equip', authenticate, async (req, res) => {
     }
 
     const item = await inventoryService.equipItem(userId, itemId);
-    return res.json(item);
+    return res.json({ success: true, item});
   } catch (error) {
     return res.status(400).json({ 
       error: 'Failed to equip item',
@@ -198,7 +198,7 @@ router.put('/items/:itemId/unequip', authenticate, async (req, res) => {
     }
 
     const item = await inventoryService.unequipItem(userId, itemId);
-    return res.json(item);
+    return res.json({ success: true, item });
   } catch (error) {
     return res.status(400).json({ 
       error: 'Failed to unequip item',
