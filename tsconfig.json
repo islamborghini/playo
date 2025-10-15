@@ -16,7 +16,8 @@
       "@/routes/*": ["src/routes/*"],
       "@/middleware/*": ["src/middleware/*"],
       "@/utils/*": ["src/utils/*"],
-      "@/types/*": ["src/types/*"]
+      "@/types/*": ["src/types/*"],
+      "@/generated/*": ["src/generated/*"]
     },
     "resolveJsonModule": true,
     
