@@ -22,7 +22,7 @@ router.get('/sheet', authenticate, async (req, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.json(response);
+    return res.json(response);
   } catch (error) {
     const response: ApiResponse = {
       success: false,
@@ -31,7 +31,7 @@ router.get('/sheet', authenticate, async (req, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.status(500).json(response);
+    return res.status(500).json(response);
   }
 });
 
@@ -79,7 +79,7 @@ router.post('/experience', authenticate, async (req, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.json(response);
+    return res.json(response);
   } catch (error) {
     const response: ApiResponse = {
       success: false,
@@ -88,7 +88,7 @@ router.post('/experience', authenticate, async (req, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.status(500).json(response);
+    return res.status(500).json(response);
   }
 });
 
@@ -97,9 +97,10 @@ router.post('/experience', authenticate, async (req, res) => {
  * Update character stats
  * Body: { strength?: number, wisdom?: number, agility?: number, endurance?: number, luck?: number }
  */
-router.put('/stats', async (req: AuthenticatedRequest, res) => {
+router.put('/stats', authenticate, async (req, res) => {
   try {
-    const statUpdates = req.body;
+    const authReq = req as AuthenticatedRequest;
+    const statUpdates = authReq.body;
     
     // Validate stat updates
     const validStats = ['strength', 'wisdom', 'agility', 'endurance', 'luck'];
@@ -126,7 +127,7 @@ router.put('/stats', async (req: AuthenticatedRequest, res) => {
       }
     }
     
-    const updatedStats = await characterService.updateStats(req.user.id, statUpdates);
+    const updatedStats = await characterService.updateStats(authReq.user.id, statUpdates);
     
     const response: ApiResponse = {
       success: true,
@@ -135,7 +136,7 @@ router.put('/stats', async (req: AuthenticatedRequest, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.json(response);
+    return res.json(response);
   } catch (error) {
     const response: ApiResponse = {
       success: false,
@@ -144,7 +145,7 @@ router.put('/stats', async (req: AuthenticatedRequest, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.status(400).json(response);
+    return res.status(400).json(response);
   }
 });
 
@@ -152,9 +153,10 @@ router.put('/stats', async (req: AuthenticatedRequest, res) => {
  * GET /api/character/stats/effective
  * Get effective stats including equipment bonuses
  */
-router.get('/stats/effective', async (req: AuthenticatedRequest, res) => {
+router.get('/stats/effective', authenticate, async (req, res) => {
   try {
-    const effectiveStats = await characterService.calculateEffectiveStats(req.user.id);
+    const authReq = req as AuthenticatedRequest;
+    const effectiveStats = await characterService.calculateEffectiveStats(authReq.user.id);
     
     const response: ApiResponse = {
       success: true,
@@ -163,7 +165,7 @@ router.get('/stats/effective', async (req: AuthenticatedRequest, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.json(response);
+    return res.json(response);
   } catch (error) {
     const response: ApiResponse = {
       success: false,
@@ -172,7 +174,7 @@ router.get('/stats/effective', async (req: AuthenticatedRequest, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.status(500).json(response);
+    return res.status(500).json(response);
   }
 });
 
@@ -181,9 +183,10 @@ router.get('/stats/effective', async (req: AuthenticatedRequest, res) => {
  * Add item to inventory
  * Body: { itemName: string, itemType: ItemType, metadata?: object, quantity?: number }
  */
-router.post('/inventory/items', async (req: AuthenticatedRequest, res) => {
+router.post('/inventory/items', authenticate, async (req, res) => {
   try {
-    const { itemName, itemType, metadata = {}, quantity = 1 } = req.body;
+    const authReq = req as AuthenticatedRequest;
+    const { itemName, itemType, metadata = {}, quantity = 1 } = authReq.body;
     
     if (!itemName || typeof itemName !== 'string') {
       const response: ApiResponse = {
@@ -213,7 +216,7 @@ router.post('/inventory/items', async (req: AuthenticatedRequest, res) => {
     }
     
     const item = await characterService.addItemToInventory(
-      req.user.id,
+      authReq.user.id,
       itemName,
       itemType,
       metadata,
@@ -227,7 +230,7 @@ router.post('/inventory/items', async (req: AuthenticatedRequest, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.json(response);
+    return res.json(response);
   } catch (error) {
     const response: ApiResponse = {
       success: false,
@@ -236,7 +239,7 @@ router.post('/inventory/items', async (req: AuthenticatedRequest, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.status(500).json(response);
+    return res.status(500).json(response);
   }
 });
 
@@ -244,11 +247,20 @@ router.post('/inventory/items', async (req: AuthenticatedRequest, res) => {
  * PUT /api/character/equipment/:itemId/equip
  * Equip an item
  */
-router.put('/equipment/:itemId/equip', async (req: AuthenticatedRequest, res) => {
+router.put('/equipment/:itemId/equip', authenticate, async (req, res) => {
   try {
-    const { itemId } = req.params;
+    const authReq = req as AuthenticatedRequest;
+    const { itemId } = authReq.params;
     
-    const equippedItem = await characterService.equipItem(req.user.id, itemId);
+    if (!itemId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Item ID is required',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    const equippedItem = await characterService.equipItem(authReq.user.id, itemId);
     
     const response: ApiResponse = {
       success: true,
@@ -257,7 +269,7 @@ router.put('/equipment/:itemId/equip', async (req: AuthenticatedRequest, res) =>
       timestamp: new Date().toISOString()
     };
     
-    res.json(response);
+    return res.json(response);
   } catch (error) {
     const response: ApiResponse = {
       success: false,
@@ -266,7 +278,7 @@ router.put('/equipment/:itemId/equip', async (req: AuthenticatedRequest, res) =>
       timestamp: new Date().toISOString()
     };
     
-    res.status(400).json(response);
+    return res.status(400).json(response);
   }
 });
 
@@ -274,11 +286,20 @@ router.put('/equipment/:itemId/equip', async (req: AuthenticatedRequest, res) =>
  * PUT /api/character/equipment/:itemId/unequip
  * Unequip an item
  */
-router.put('/equipment/:itemId/unequip', async (req: AuthenticatedRequest, res) => {
+router.put('/equipment/:itemId/unequip', authenticate, async (req, res) => {
   try {
-    const { itemId } = req.params;
+    const authReq = req as AuthenticatedRequest;
+    const { itemId } = authReq.params;
     
-    const unequippedItem = await characterService.unequipItem(req.user.id, itemId);
+    if (!itemId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Item ID is required',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    const unequippedItem = await characterService.unequipItem(authReq.user.id, itemId);
     
     const response: ApiResponse = {
       success: true,
@@ -287,7 +308,7 @@ router.put('/equipment/:itemId/unequip', async (req: AuthenticatedRequest, res) 
       timestamp: new Date().toISOString()
     };
     
-    res.json(response);
+    return res.json(response);
   } catch (error) {
     const response: ApiResponse = {
       success: false,
@@ -296,7 +317,7 @@ router.put('/equipment/:itemId/unequip', async (req: AuthenticatedRequest, res) 
       timestamp: new Date().toISOString()
     };
     
-    res.status(400).json(response);
+    return res.status(400).json(response);
   }
 });
 
@@ -304,9 +325,10 @@ router.put('/equipment/:itemId/unequip', async (req: AuthenticatedRequest, res) 
  * GET /api/character/inventory
  * Get character inventory
  */
-router.get('/inventory', async (req: AuthenticatedRequest, res) => {
+router.get('/inventory', authenticate, async (req, res) => {
   try {
-    const characterSheet = await characterService.getCharacterSheet(req.user.id);
+    const authReq = req as AuthenticatedRequest;
+    const characterSheet = await characterService.getCharacterSheet(authReq.user.id);
     
     const response: ApiResponse = {
       success: true,
@@ -318,7 +340,7 @@ router.get('/inventory', async (req: AuthenticatedRequest, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.json(response);
+    return res.json(response);
   } catch (error) {
     const response: ApiResponse = {
       success: false,
@@ -327,7 +349,7 @@ router.get('/inventory', async (req: AuthenticatedRequest, res) => {
       timestamp: new Date().toISOString()
     };
     
-    res.status(500).json(response);
+    return res.status(500).json(response);
   }
 });
 
