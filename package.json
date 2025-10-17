@@ -37,6 +37,7 @@
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^6.17.1",
     "@types/bcrypt": "^6.0.0",
     "@types/joi": "^17.2.2",

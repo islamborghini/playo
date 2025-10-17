@@ -1,0 +1,351 @@
+{
+  "info": {
+    "name": "Playo - AI Story Generation",
+    "description": "Google Gemini AI endpoints for story generation, NPC dialogue, and content moderation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Story Generation",
+      "item": [
+        {
+          "name": "Generate Story - Epic Tone",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"characterName\": \"Aragorn\",\n  \"characterLevel\": 10,\n  \"characterClass\": \"Warrior\",\n  \"recentTasks\": [\n    {\n      \"title\": \"Complete morning workout\",\n      \"description\": \"Did 50 pushups and 30 situps\",\n      \"category\": \"fitness\",\n      \"difficulty\": 7\n    },\n    {\n      \"title\": \"Learn TypeScript\",\n      \"description\": \"Completed advanced TypeScript tutorial\",\n      \"category\": \"learning\",\n      \"difficulty\": 8\n    }\n  ],\n  \"tone\": \"epic\",\n  \"length\": \"medium\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/story/generate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "story", "generate"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Story - Humorous Tone",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"characterName\": \"Bob the Builder\",\n  \"characterLevel\": 5,\n  \"characterClass\": \"Mage\",\n  \"recentTasks\": [\n    {\n      \"title\": \"Fix the coffee machine\",\n      \"description\": \"Successfully brewed morning coffee\",\n      \"category\": \"daily\",\n      \"difficulty\": 3\n    }\n  ],\n  \"tone\": \"humorous\",\n  \"length\": \"short\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/story/generate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "story", "generate"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Story - Long Epic",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"characterName\": \"Gandalf\",\n  \"characterLevel\": 50,\n  \"characterClass\": \"Wizard\",\n  \"recentTasks\": [\n    {\n      \"title\": \"Master advanced spells\",\n      \"description\": \"Learned meteor storm and time manipulation\",\n      \"category\": \"magic\",\n      \"difficulty\": 10\n    },\n    {\n      \"title\": \"Defeat shadow demon\",\n      \"description\": \"Banished the demon lord to the void\",\n      \"category\": \"combat\",\n      \"difficulty\": 9\n    },\n    {\n      \"title\": \"Save the kingdom\",\n      \"description\": \"Protected the realm from invasion\",\n      \"category\": \"quest\",\n      \"difficulty\": 10\n    }\n  ],\n  \"tone\": \"epic\",\n  \"length\": \"long\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/story/generate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "story", "generate"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Chapter Continuation",
+      "item": [
+        {
+          "name": "Continue Story Chapter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"previousChapter\": \"You stand victorious over the fallen dragon, its treasure glittering in the dim light of the cave. The legendary sword Excalibur now rests in your hands, pulsing with ancient power.\",\n  \"characterState\": {\n    \"name\": \"Aragorn\",\n    \"level\": 10,\n    \"class\": \"Warrior\",\n    \"health\": 85,\n    \"mana\": 50\n  },\n  \"recentActions\": [\n    \"Equipped legendary sword Excalibur\",\n    \"Learned fireball spell from ancient tome\",\n    \"Completed quest for the king\"\n  ],\n  \"plotDirection\": \"A mysterious portal appears in the cave\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/story/chapter",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "story", "chapter"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Continue Chapter - Low Health",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"previousChapter\": \"The battle was fierce, and though you emerged victorious, your wounds are grave. You stumble through the forest, seeking shelter and healing.\",\n  \"characterState\": {\n    \"name\": \"Legolas\",\n    \"level\": 8,\n    \"class\": \"Archer\",\n    \"health\": 20,\n    \"mana\": 10\n  },\n  \"recentActions\": [\n    \"Barely survived goblin ambush\",\n    \"Lost healing potions in the fight\",\n    \"Found shelter in abandoned cabin\"\n  ],\n  \"plotDirection\": \"Discover a hidden elven healer in the woods\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/story/chapter",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "story", "chapter"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "NPC Dialogue",
+      "item": [
+        {
+          "name": "Wise Wizard - Mysterious",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"npcName\": \"Gandalf the Grey\",\n  \"npcRole\": \"Wise Wizard\",\n  \"context\": \"The hero seeks guidance before the final battle against the dark lord\",\n  \"characterName\": \"Frodo\",\n  \"characterLevel\": 15,\n  \"mood\": \"mysterious\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/npc/dialogue",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "npc", "dialogue"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Shopkeeper - Friendly",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"npcName\": \"Merchant Tom\",\n  \"npcRole\": \"Shopkeeper\",\n  \"context\": \"Player enters the shop looking to buy health potions after a tough battle\",\n  \"characterName\": \"Hero\",\n  \"characterLevel\": 7,\n  \"mood\": \"friendly\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/npc/dialogue",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "npc", "dialogue"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Guard - Hostile",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"npcName\": \"Captain Blackstone\",\n  \"npcRole\": \"City Guard Captain\",\n  \"context\": \"Player is caught sneaking into the castle at night\",\n  \"characterName\": \"Rogue\",\n  \"characterLevel\": 5,\n  \"mood\": \"hostile\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/npc/dialogue",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "npc", "dialogue"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Quest Giver - Urgent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"npcName\": \"Village Elder\",\n  \"npcRole\": \"Quest Giver\",\n  \"context\": \"The village is under attack by bandits and needs immediate help\",\n  \"characterName\": \"Warrior\",\n  \"characterLevel\": 12,\n  \"mood\": \"urgent\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/npc/dialogue",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "npc", "dialogue"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Content Moderation",
+      "item": [
+        {
+          "name": "Moderate Appropriate Content",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"You embark on a heroic quest to save the kingdom from the dragon's wrath. Armed with courage and determination, you set forth into the unknown.\",\n  \"context\": \"Story introduction for a family-friendly RPG game\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/moderate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "moderate"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Moderate User-Generated Content",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"The warrior fought bravely against the monsters, using sword and shield to protect the innocent villagers.\",\n  \"context\": \"Player-submitted custom story content\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/moderate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "moderate"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Service Status",
+      "item": [
+        {
+          "name": "Get Rate Limit Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/rate-limit",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "rate-limit"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai", "health"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

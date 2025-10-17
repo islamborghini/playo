@@ -19,19 +19,19 @@ async function main(): Promise<void> {
       characterName: 'Aria the Brave',
       level: 3,
       xp: 250,
-      stats: {
+      stats: JSON.stringify({
         strength: 12,
         wisdom: 8,
         agility: 10,
         endurance: 9,
         luck: 7,
-      },
-      preferences: {
+      }),
+      preferences: JSON.stringify({
         storyGenre: 'fantasy',
         difficulty: 'medium',
         notifications: true,
         theme: 'dark',
-      },
+      }),
     },
   });
 
@@ -82,11 +82,11 @@ async function main(): Promise<void> {
         itemName: 'Iron Sword',
         itemType: ItemType.WEAPON,
         equipped: true,
-        metadata: {
+        metadata: JSON.stringify({
           attack: 15,
           durability: 100,
           rarity: 'common',
-        },
+        }),
       },
       {
         userId: demoUser.id,
@@ -94,11 +94,11 @@ async function main(): Promise<void> {
         itemName: 'Leather Armor',
         itemType: ItemType.ARMOR,
         equipped: true,
-        metadata: {
+        metadata: JSON.stringify({
           defense: 8,
           durability: 80,
           rarity: 'common',
-        },
+        }),
       },
       {
         userId: demoUser.id,
@@ -106,10 +106,10 @@ async function main(): Promise<void> {
         itemName: 'Health Potion',
         itemType: ItemType.CONSUMABLE,
         quantity: 3,
-        metadata: {
+        metadata: JSON.stringify({
           effect: 'heal',
           amount: 50,
-        },
+        }),
       },
     ],
   });
@@ -122,12 +122,12 @@ async function main(): Promise<void> {
       userId: demoUser.id,
       storyId: 'main_quest_001',
       currentChapter: 3,
-      chapterData: {
+      chapterData: JSON.stringify({
         title: 'The Ancient Library',
         description: 'You have discovered the entrance to an ancient library...',
         choices: ['enter_library', 'search_surroundings', 'return_to_village'],
-      },
-      branchesTaken: ['helped_villager', 'chose_wisdom_path'],
+      }),
+      branchesTaken: JSON.stringify(['helped_villager', 'chose_wisdom_path']),
     },
   });
 

@@ -32,6 +32,7 @@ interface EnvironmentConfig {
   // AI APIs
   OPENAI_API_KEY: string | undefined;
   ANTHROPIC_API_KEY: string | undefined;
+  GEMINI_API_KEY: string | undefined;
   AI_MODEL: string;
   AI_MAX_TOKENS: number;
 
@@ -120,6 +121,7 @@ export const config: EnvironmentConfig = {
   // AI APIs
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
   ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY,
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY,
   AI_MODEL: getEnvVar('AI_MODEL', 'gpt-4'),
   AI_MAX_TOKENS: getEnvVarAsNumber('AI_MAX_TOKENS', 1000),
 
