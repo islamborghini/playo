@@ -20,6 +20,7 @@ import {
   GenerateNPCDialogueOptions,
   ModerateContentOptions,
 } from '../types/gemini';
+import prisma from '../utils/prisma';
 
 const router = Router();
 
@@ -322,9 +323,29 @@ router.post('/story/arc/create', authenticate, async (req, res) => {
       plotFocus,
     });
 
+    // Save story to database
+    const savedStory = await prisma.story.create({
+      data: {
+        userId: authReq.user.id,
+        title: result.title || `${characterName}'s Adventure`,
+        description: result.description || 'An epic quest awaits...',
+        content: JSON.stringify(result),
+        currentChapter: result.currentChapter || 1,
+        totalChapters: result.totalChapters || 10,
+        chapterData: JSON.stringify(result.chapters?.[0] || {}),
+        branchesTaken: JSON.stringify([]),
+        activeQuests: JSON.stringify(result.mainQuests || []),
+        unlockedChallenges: JSON.stringify(result.challenges || []),
+        worldState: JSON.stringify(result.worldState || {}),
+        isActive: true,
+      },
+    });
+
     return res.status(200).json({
       success: true,
+      message: 'Story arc created successfully',
       data: {
+        storyId: savedStory.id,
         userId,
         arc: result,
       },
@@ -516,25 +537,77 @@ router.post('/challenge/attempt', authenticate, async (req, res) => {
 
 /**
  * GET /api/ai/story/current
- * Get the current story state (placeholder - will integrate with database)
+ * Get the current active story for the authenticated user
  */
 router.get('/story/current', authenticate, async (req, res) => {
   try {
     const authReq = req as AuthenticatedRequest;
-    const userId = parseInt(authReq.user.id);
+    const userId = authReq.user.id;
 
-    // TODO: Fetch from database once Story model is added
+    // Find the most recent active story for this user
+    const story = await prisma.story.findFirst({
+      where: {
+        userId: userId,
+        isActive: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    if (!story) {
+      return res.status(404).json({
+        success: false,
+        message: 'No active story found. Create one first!',
+        data: {
+          userId,
+          suggestion: 'Use POST /api/ai/story/arc/create to generate a new story arc',
+        },
+      });
+    }
+
+    // Parse the stored story data
+    const storyArc = JSON.parse(story.content);
+    const currentChapterData = JSON.parse(story.chapterData);
+    const activeQuests = JSON.parse(story.activeQuests);
+    const unlockedChallenges = JSON.parse(story.unlockedChallenges);
+    const worldState = JSON.parse(story.worldState);
+    const branchesTaken = JSON.parse(story.branchesTaken);
+
     return res.status(200).json({
       success: true,
-      message: 'Story retrieval will be implemented after database schema update',
+      message: 'Current story retrieved successfully',
       data: {
+        storyId: story.id,
         userId,
-        note: 'Use POST /api/ai/story/arc/create to generate a new story arc',
+        title: story.title,
+        description: story.description,
+        currentChapter: story.currentChapter,
+        totalChapters: story.totalChapters,
+        arc: {
+          ...storyArc,
+          currentChapter: story.currentChapter,
+          worldState,
+          activeQuests,
+          unlockedChallenges,
+        },
+        currentChapterData,
+        branchesTaken,
+        progress: {
+          percentage: Math.round((story.currentChapter / story.totalChapters) * 100),
+          chaptersCompleted: story.currentChapter - 1,
+          chaptersRemaining: story.totalChapters - story.currentChapter + 1,
+        },
+        timestamps: {
+          createdAt: story.createdAt,
+          updatedAt: story.updatedAt,
+        },
       },
     });
   } catch (error: any) {
     console.error('Error fetching current story:', error);
     return res.status(500).json({
+      success: false,
       error: 'Failed to fetch current story',
       message: error.message,
     });
