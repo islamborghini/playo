@@ -372,48 +372,182 @@ router.post('/story/arc/create', authenticate, async (req, res) => {
  * Generate the next chapter based on player progress
  * 
  * Body:
- * - mainStoryArc: object (current story arc state)
- * - characterState: object (name, level, stats)
- * - recentProgress: array (completed tasks/habits)
- * - previousChoices: array (story choices made)
- * - pendingChallenges: array (challenges available)
+ * - storyId: string (required)
+ * - choiceId: string (optional - player's choice from previous chapter)
  */
 router.post('/story/chapter/next', authenticate, async (req, res) => {
   try {
     const authReq = req as AuthenticatedRequest;
-    const userId = parseInt(authReq.user.id);
+    const userId = authReq.user.id; // Keep as string to match Prisma schema
+    const { storyId, choiceId } = req.body;
 
-    const {
-      mainStoryArc,
-      characterState,
-      recentProgress,
-      previousChoices,
-      pendingChallenges,
-    } = req.body;
-
-    // Validation
-    if (!mainStoryArc || !characterState) {
+    // Validate required fields
+    if (!storyId) {
       return res.status(400).json({
-        error: 'Missing required fields: mainStoryArc, characterState',
+        success: false,
+        error: 'Missing required field: storyId',
       });
     }
 
+    // Fetch story from database
+    const story = await prisma.story.findUnique({
+      where: { id: storyId },
+    });
+
+    if (!story) {
+      return res.status(404).json({
+        success: false,
+        error: 'Story not found',
+      });
+    }
+
+    if (story.userId !== userId) {
+      return res.status(403).json({
+        success: false,
+        error: 'You do not have access to this story',
+      });
+    }
+
+    // Fetch user data and recent tasks in parallel
+    const [user, recentTasks] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: userId },
+      }),
+      prisma.task.findMany({
+        where: {
+          userId,
+          lastCompleted: {
+            gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // Last 7 days
+          },
+        },
+        orderBy: { lastCompleted: 'desc' },
+        take: 10,
+      }),
+    ]);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found',
+      });
+    }
+
+    // Parse stored story data
+    const storedContent = typeof story.content === 'string' ? JSON.parse(story.content) : story.content;
+    const mainStoryArc = {
+      ...storedContent,
+      currentChapter: story.currentChapter,
+      totalChapters: story.totalChapters,
+    };
+
+    // Build character state from user data
+    const characterState = {
+      characterName: user.characterName || user.username,
+      level: user.level,
+      stats: typeof user.stats === 'string' ? JSON.parse(user.stats) : user.stats,
+      preferences:
+        user.preferences && typeof user.preferences === 'string'
+          ? JSON.parse(user.preferences)
+          : user.preferences || {},
+    };
+
+    // Map recent tasks to completed task format
+    const recentProgress = recentTasks.map((task) => ({
+      title: task.title,
+      category: task.category,
+      difficulty: task.difficulty,
+      streakCount: task.streakCount,
+    }));
+
+    // Parse previous choices from database
+    const previousChoices =
+      story.branchesTaken && typeof story.branchesTaken === 'string'
+        ? JSON.parse(story.branchesTaken)
+        : story.branchesTaken || [];
+
+    // Add current choice to history
+    if (choiceId) {
+      previousChoices.push({
+        chapterId: story.currentChapter,
+        choiceId,
+        timestamp: new Date(),
+        outcome: null, // Will be filled after generation
+      });
+    }
+
+    // Parse unlocked challenges
+    const unlockedChallenges =
+      story.unlockedChallenges && typeof story.unlockedChallenges === 'string'
+        ? JSON.parse(story.unlockedChallenges)
+        : story.unlockedChallenges || [];
+
+    // Parse world state
+    const worldState =
+      story.worldState && typeof story.worldState === 'string'
+        ? JSON.parse(story.worldState)
+        : story.worldState || {};
+
+    // Build context for AI generation
     const context = {
       mainStoryArc,
       characterState,
-      recentProgress: recentProgress || [],
-      previousChoices: previousChoices || [],
-      pendingChallenges: pendingChallenges || [],
-      worldState: mainStoryArc.worldState,
+      recentProgress,
+      pendingChallenges: unlockedChallenges,
+      worldState,
+      previousChoices,
     };
 
+    // Generate next chapter using AI
     const result = await geminiService.generateNextChapter(context);
+
+    // Update story arc with new chapter data
+    const updatedContent = {
+      ...storedContent,
+      currentChapter: result.chapter,
+      worldState: result.worldStateChanges || worldState,
+    };
+
+    // Update active quests if new ones were unlocked
+    let activeQuests = story.activeQuests && typeof story.activeQuests === 'string'
+      ? JSON.parse(story.activeQuests)
+      : story.activeQuests || [];
+    
+    if (result.questsUnlocked && result.questsUnlocked.length > 0) {
+      activeQuests = [...activeQuests, ...result.questsUnlocked];
+    }
+
+    // Update unlocked challenges if new ones were unlocked
+    if (result.challengesUnlocked && result.challengesUnlocked.length > 0) {
+      unlockedChallenges.push(...result.challengesUnlocked);
+    }
+
+    // Update the last choice's outcome
+    if (choiceId && previousChoices.length > 0) {
+      previousChoices[previousChoices.length - 1].outcome = result.title;
+    }
+
+    // Save updated story to database
+    await prisma.story.update({
+      where: { id: storyId },
+      data: {
+        currentChapter: result.chapter,
+        content: JSON.stringify(updatedContent),
+        chapterData: JSON.stringify(result),
+        activeQuests: JSON.stringify(activeQuests),
+        unlockedChallenges: JSON.stringify(unlockedChallenges),
+        worldState: JSON.stringify(result.worldStateChanges || worldState),
+        branchesTaken: JSON.stringify(previousChoices),
+        updatedAt: new Date(),
+      },
+    });
 
     return res.status(200).json({
       success: true,
       data: {
         userId,
         chapter: result,
+        updatedStoryArc: updatedContent,
+        choiceHistory: previousChoices,
       },
     });
   } catch (error: any) {
