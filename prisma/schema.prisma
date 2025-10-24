@@ -50,6 +50,7 @@ model User {
   // Relations
   tasks             Task[]
   storyProgressions StoryProgression[]
+  stories           Story[]
   completedTasks    CompletedTask[]
   inventory         CharacterInventory[]
   aiGenerationLogs  AIGenerationLog[]
@@ -114,6 +115,37 @@ model StoryProgression {
   @@index([currentChapter])
   @@index([lastUpdated])
   @@map("story_progressions")
+}
+
+// Story model - Main story arcs with chapters, quests, and challenges
+model Story {
+  id             String   @id @default(cuid())
+  userId         String
+  title          String
+  description    String?
+  content        String   // Full story arc JSON
+  currentChapter Int      @default(1)
+  totalChapters  Int      @default(10)
+  chapterData    String   @default("{}") // Current chapter state
+  branchesTaken  String   @default("[]") // Choices made
+  activeQuests   String   @default("[]") // Active quests JSON
+  unlockedChallenges String @default("[]") // Unlocked challenges JSON
+  worldState     String   @default("{}") // Current world state JSON
+  isActive       Boolean  @default(true)
+  completedAt    DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Indexes for performance
+  @@index([userId])
+  @@index([isActive])
+  @@index([currentChapter])
+  @@index([createdAt])
+  @@index([updatedAt])
+  @@map("stories")
 }
 
 // CompletedTask model - Tracks task completions and rewards

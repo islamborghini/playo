@@ -523,6 +523,453 @@ Respond in this exact JSON format:
       };
     }
   }
+
+  // ============================================================================
+  // HYBRID STORY SYSTEM - Main Story Arc + Task Integration + Challenges
+  // ============================================================================
+
+  /**
+   * Generate a complete main story arc with branching paths and challenges
+   * 
+   * Creates a 10-chapter narrative with:
+   * - Main quests tied to real-life tasks
+   * - Side quests for variety
+   * - Combat challenges unlocked by stat requirements
+   * - Dynamic world state that evolves
+   * - Multiple story branches based on player choices
+   * 
+   * @param options Story arc preferences (theme, setting, plotFocus)
+   * @param characterState Current character information
+   * @returns Complete MainStoryArc with quests, challenges, and world state
+   */
+  public async generateMainStoryArc(
+    options: {
+      characterName: string;
+      characterLevel: number;
+      characterClass: string;
+      theme?: string;
+      setting?: string;
+      plotFocus?: 'action' | 'mystery' | 'exploration' | 'character';
+    }
+  ): Promise<any> {
+    await this.checkRateLimit();
+
+    const { characterName, characterLevel, characterClass, theme, setting, plotFocus } = options;
+
+    const prompt = `You are a master RPG storyteller creating an epic 10-chapter story arc for a habit-tracking game.
+
+CHARACTER INFORMATION:
+- Name: ${characterName}
+- Level: ${characterLevel}
+- Class: ${characterClass}
+
+STORY PREFERENCES:
+- Theme: ${theme || 'Epic Fantasy Adventure'}
+- Setting: ${setting || 'Medieval Fantasy World'}
+- Plot Focus: ${plotFocus || 'balanced mix'}
+
+TASK: Create a complete story arc with the following structure in JSON format:
+
+\`\`\`json
+{
+  "id": "unique-arc-id",
+  "title": "Epic arc title",
+  "description": "Brief overview of the arc",
+  "totalChapters": 10,
+  "worldState": {
+    "location": "Starting location",
+    "timeOfDay": "morning/afternoon/evening/night",
+    "weatherCondition": "clear/rainy/stormy/foggy",
+    "npcsAvailable": [
+      {
+        "name": "NPC Name",
+        "role": "mentor/merchant/quest-giver/villain",
+        "personality": "Brief personality description",
+        "relationship": "ally/neutral/enemy"
+      }
+    ],
+    "environmentalFactors": ["factor1", "factor2"]
+  },
+  "chapters": [
+    {
+      "chapterNumber": 1,
+      "title": "Chapter title",
+      "content": "Opening chapter narrative (300-500 words). Start with an exciting hook that introduces the world and conflict.",
+      "choices": [
+        {
+          "id": "choice-1-a",
+          "text": "Choice description",
+          "consequences": "What happens if chosen",
+          "leadsToChapter": 2
+        }
+      ]
+    }
+  ],
+  "mainQuests": [
+    {
+      "id": "quest-1",
+      "title": "Quest title",
+      "description": "Quest objective",
+      "type": "main",
+      "requirements": {
+        "minLevel": 1
+      },
+      "rewards": {
+        "xp": 100,
+        "gold": 50,
+        "items": ["Reward item"],
+        "storyProgression": true
+      },
+      "tasksTiedTo": ["Complete 3 daily habits", "Achieve 7-day streak"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "challenge-1",
+      "title": "Challenge title",
+      "description": "Challenge description",
+      "type": "combat",
+      "difficulty": "MEDIUM",
+      "requirements": {
+        "minLevel": 3,
+        "minStrength": 5
+      },
+      "enemy": {
+        "name": "Enemy name",
+        "level": 3,
+        "stats": {
+          "health": 100,
+          "attack": 15,
+          "defense": 10,
+          "speed": 12
+        },
+        "weaknesses": ["fire", "holy"],
+        "abilities": ["Slash", "Block"],
+        "loot": ["Enemy weapon", "Gold coins"]
+      },
+      "rewards": {
+        "xp": 200,
+        "gold": 100,
+        "items": ["Epic reward"]
+      },
+      "unlocked": false
+    }
+  ]
+}
+\`\`\`
+
+REQUIREMENTS:
+1. Create ALL 10 chapters with engaging narratives
+2. Each chapter should be 300-500 words
+3. Include 2-3 choices per chapter that branch the story
+4. Create 5-7 main quests tied to real-life habit completion
+5. Include 3-5 combat challenges with proper stat requirements
+6. Make the story personal to ${characterName} as a ${characterClass}
+7. Build tension and excitement throughout
+8. Ensure choices have meaningful consequences
+9. Balance difficulty progression (challenges get harder)
+10. Create memorable NPCs that players will care about
+
+Generate the complete JSON now:`;
+
+    return this.retryWithBackoff(async () => {
+      const startTime = Date.now();
+      const result = await this.model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      const tokensUsed = (response.usageMetadata?.totalTokenCount || 0);
+
+      const arcData = this.extractJsonFromMarkdown(text);
+      
+      console.log(`Main story arc generated (${tokensUsed} tokens, ${Date.now() - startTime}ms)`);
+
+      return {
+        ...arcData,
+        currentChapter: 1,
+        metadata: {
+          tokensUsed,
+          modelUsed: this.MODEL_NAME,
+          generatedAt: new Date(),
+        },
+      };
+    }, 'generateMainStoryArc');
+  }
+
+  /**
+   * Generate the next chapter based on player progress and choices
+   * 
+   * This method creates dynamic story continuation that reflects:
+   * - Tasks the player has completed
+   * - Stats and level progression
+   * - Previous story choices
+   * - Current world state
+   * - Unlocked challenges
+   * 
+   * @param context Complete story generation context
+   * @returns Next chapter with updated world state and new choices
+   */
+  public async generateNextChapter(context: any): Promise<any> {
+    await this.checkRateLimit();
+
+    const { mainStoryArc, characterState, recentProgress, previousChoices } = context;
+
+    const completedTasksSummary = recentProgress
+      .map((task: any) => `- ${task.title} (${task.category}, streak: ${task.streakCount})`)
+      .join('\n');
+
+    const previousChoicesSummary = previousChoices
+      .slice(-3)
+      .map((choice: any) => `Chapter ${choice.chapterId}: ${choice.event} -> ${choice.outcome}`)
+      .join('\n');
+
+    const prompt = `You are continuing an epic RPG story for ${characterState.characterName}.
+
+CURRENT STORY STATE:
+Arc Title: ${mainStoryArc.title}
+Current Chapter: ${mainStoryArc.currentChapter}
+Location: ${mainStoryArc.worldState.location}
+
+CHARACTER PROGRESS:
+- Level: ${characterState.level}
+- Stats: STR ${characterState.stats.strength}, WIS ${characterState.stats.wisdom}, AGI ${characterState.stats.agility}
+
+RECENT REAL-LIFE ACCOMPLISHMENTS (reflect these in the story):
+${completedTasksSummary}
+
+PREVIOUS STORY CHOICES:
+${previousChoicesSummary}
+
+TASK: Generate the next chapter that:
+1. Acknowledges the player's real-life progress (completed tasks = character power growth)
+2. Continues the main narrative arc
+3. Reflects previous choices
+4. Introduces new challenges or quests
+5. Advances the plot meaningfully
+
+Respond in JSON format:
+\`\`\`json
+{
+  "chapterNumber": ${mainStoryArc.currentChapter + 1},
+  "title": "Chapter title",
+  "content": "Chapter narrative (400-600 words). Reference the player's real achievements and integrate them into the story.",
+  "worldState": {
+    "location": "Updated location if moved",
+    "timeOfDay": "current time",
+    "weatherCondition": "current weather",
+    "environmentalFactors": ["updated factors"]
+  },
+  "choices": [
+    {
+      "id": "choice-id",
+      "text": "Choice description",
+      "requirements": {
+        "minLevel": ${characterState.level}
+      },
+      "consequences": "What happens",
+      "leadsToChapter": ${mainStoryArc.currentChapter + 2}
+    }
+  ],
+  "newQuestsUnlocked": [
+    {
+      "id": "quest-id",
+      "title": "New quest",
+      "description": "Quest description",
+      "requirements": {
+        "minLevel": ${characterState.level}
+      },
+      "tasksTiedTo": ["Real-life habit example"]
+    }
+  ],
+  "challengesUnlocked": []
+}
+\`\`\``;
+
+    return this.retryWithBackoff(async () => {
+      const startTime = Date.now();
+      const result = await this.model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      const tokensUsed = (response.usageMetadata?.totalTokenCount || 0);
+
+      const chapterData = this.extractJsonFromMarkdown(text);
+      
+      console.log(`Next chapter generated (${tokensUsed} tokens, ${Date.now() - startTime}ms)`);
+
+      return {
+        ...chapterData,
+        metadata: {
+          tokensUsed,
+          modelUsed: this.MODEL_NAME,
+          generatedAt: new Date(),
+        },
+      };
+    }, 'generateNextChapter');
+  }
+
+  /**
+   * Check if a challenge can be attempted based on character stats
+   * 
+   * @param challenge Challenge to check
+   * @param characterState Current character state
+   * @returns Object with canAttempt boolean and reason if locked
+   */
+  public checkChallengeReadiness(challenge: any, characterState: any): { canAttempt: boolean; reason?: string } {
+    const { requirements } = challenge;
+    const { level, stats } = characterState;
+
+    if (requirements.minLevel && level < requirements.minLevel) {
+      return { canAttempt: false, reason: `Requires level ${requirements.minLevel} (you are level ${level})` };
+    }
+
+    if (requirements.minStrength && stats.strength < requirements.minStrength) {
+      return { canAttempt: false, reason: `Requires ${requirements.minStrength} strength (you have ${stats.strength})` };
+    }
+
+    if (requirements.minWisdom && stats.wisdom < requirements.minWisdom) {
+      return { canAttempt: false, reason: `Requires ${requirements.minWisdom} wisdom (you have ${stats.wisdom})` };
+    }
+
+    if (requirements.minAgility && stats.agility < requirements.minAgility) {
+      return { canAttempt: false, reason: `Requires ${requirements.minAgility} agility (you have ${stats.agility})` };
+    }
+
+    if (requirements.minEndurance && stats.endurance < requirements.minEndurance) {
+      return { canAttempt: false, reason: `Requires ${requirements.minEndurance} endurance (you have ${stats.endurance})` };
+    }
+
+    if (requirements.minLuck && stats.luck < requirements.minLuck) {
+      return { canAttempt: false, reason: `Requires ${requirements.minLuck} luck (you have ${stats.luck})` };
+    }
+
+    return { canAttempt: true };
+  }
+
+  /**
+   * Simulate combat between player and enemy
+   * 
+   * Uses character stats vs enemy stats to determine outcome
+   * Includes randomness and strategy elements
+   * 
+   * @param characterState Player stats
+   * @param enemy Enemy stats
+   * @returns Combat result with damage, xp, loot
+   */
+  public simulateCombat(characterState: any, enemy: any): any {
+    const playerStats = characterState.stats;
+    const enemyStats = enemy.stats;
+
+    // Calculate effective combat stats
+    const playerAttack = playerStats.strength + (playerStats.agility * 0.5);
+    const playerDefense = playerStats.endurance + (playerStats.agility * 0.3);
+    const playerSpeed = playerStats.agility;
+    const playerLuck = playerStats.luck || 5;
+
+    const enemyAttack = enemyStats.attack;
+    const enemyDefense = enemyStats.defense;
+    const enemySpeed = enemyStats.speed;
+
+    // Determine who attacks first
+    const playerGoesFirst = playerSpeed >= enemySpeed;
+
+    // Combat simulation (simplified turn-based)
+    let playerHealth = 100;
+    let enemyHealth = enemyStats.health;
+    let damageDealt = 0;
+    let damageTaken = 0;
+    let rounds = 0;
+
+    while (playerHealth > 0 && enemyHealth > 0 && rounds < 20) {
+      rounds++;
+
+      if (playerGoesFirst || rounds % 2 === 1) {
+        // Player's turn
+        const baseDamage = playerAttack - (enemyDefense * 0.5);
+        const critChance = playerLuck / 100;
+        const isCrit = Math.random() < critChance;
+        const damage = Math.max(5, Math.floor(baseDamage * (isCrit ? 2 : 1) * (0.8 + Math.random() * 0.4)));
+        
+        enemyHealth -= damage;
+        damageDealt += damage;
+      }
+
+      if (enemyHealth > 0) {
+        // Enemy's turn
+        const baseDamage = enemyAttack - (playerDefense * 0.5);
+        const damage = Math.max(3, Math.floor(baseDamage * (0.8 + Math.random() * 0.4)));
+        
+        playerHealth -= damage;
+        damageTaken += damage;
+      }
+    }
+
+    const victory = enemyHealth <= 0 && playerHealth > 0;
+    const xpGained = victory ? Math.floor(enemy.level * 50 * (1 + (enemy.stats.health / 100))) : 0;
+    const lootObtained = victory ? enemy.loot : [];
+
+    return {
+      victory,
+      playerHealth: Math.max(0, playerHealth),
+      enemyHealth: Math.max(0, enemyHealth),
+      damageDealt,
+      damageTaken,
+      rounds,
+      xpGained,
+      lootObtained,
+      storyConsequence: victory 
+        ? `You have defeated ${enemy.name}! Your victory will be remembered.`
+        : `${enemy.name} has bested you in combat. Perhaps you need more training...`
+    };
+  }
+
+  /**
+   * Generate an exciting combat narrative based on combat results
+   * 
+   * @param combatResult Result from simulateCombat
+   * @param characterName Player's name
+   * @param enemy Enemy that was fought
+   * @returns Engaging narrative description of the combat
+   */
+  public async generateCombatNarrative(
+    combatResult: any,
+    characterName: string,
+    enemy: any
+  ): Promise<string> {
+    await this.checkRateLimit();
+
+    const prompt = `You are a master combat narrator for an RPG game. Describe this epic battle:
+
+COMBATANTS:
+- Hero: ${characterName}
+- Enemy: ${enemy.name} (Level ${enemy.level})
+
+COMBAT RESULTS:
+- Victor: ${combatResult.victory ? characterName : enemy.name}
+- Rounds: ${combatResult.rounds}
+- Damage Dealt by ${characterName}: ${combatResult.damageDealt}
+- Damage Taken by ${characterName}: ${combatResult.damageTaken}
+- Final HP: ${characterName} = ${combatResult.playerHealth}, ${enemy.name} = ${combatResult.enemyHealth}
+
+Write an exciting 200-300 word combat narrative that:
+1. Describes the tension and stakes
+2. Highlights key moments and turning points
+3. Includes specific actions and reactions
+4. Makes the reader feel the intensity
+5. Ends with the outcome and consequences
+
+Write ONLY the narrative, no JSON:`;
+
+    return this.retryWithBackoff(async () => {
+      const startTime = Date.now();
+      const result = await this.model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      const tokensUsed = (response.usageMetadata?.totalTokenCount || 0);
+
+      console.log(`Combat narrative generated (${tokensUsed} tokens, ${Date.now() - startTime}ms)`);
+
+      return text.trim();
+    }, 'generateCombatNarrative');
+  }
 }
 
 // Export singleton instance

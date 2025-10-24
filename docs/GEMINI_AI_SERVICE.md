@@ -4,6 +4,17 @@
 
 The Gemini AI Service provides AI-powered story generation, NPC dialogue, and content moderation for the playo RPG game using Google's Gemini 1.5 Flash model.
 
+## 🎮 NEW: Hybrid Story System
+
+**The complete RPG experience combining narrative entertainment with real-life habit tracking!**
+
+Check out the [**Hybrid Story System Guide**](./HYBRID_STORY_SYSTEM.md) for:
+- Main story arcs with 10 chapters and branching paths
+- Quest system tied to real-life task completion
+- Combat challenges with stat requirements
+- Dynamic story generation reflecting your actual progress
+- Complete gameplay loop documentation
+
 ## Features
 
 ### Core Capabilities
@@ -11,6 +22,10 @@ The Gemini AI Service provides AI-powered story generation, NPC dialogue, and co
 - ✅ **Chapter Continuation**: Generate story chapters that build on previous narrative
 - ✅ **NPC Dialogue**: Create contextual dialogue for non-player characters
 - ✅ **Content Moderation**: Filter inappropriate content using AI safety features
+- ✨ **NEW: Main Story Arcs**: Generate complete 10-chapter narratives with quests and challenges
+- ✨ **NEW: Dynamic Chapters**: Continue story based on real-life progress and choices
+- ✨ **NEW: Challenge System**: Combat simulation with stat-based mechanics
+- ✨ **NEW: Combat Narratives**: Exciting battle descriptions for challenge outcomes
 
 ### Advanced Features
 - ✅ **Exponential Backoff Retry**: Automatically retries failed requests up to 3 times

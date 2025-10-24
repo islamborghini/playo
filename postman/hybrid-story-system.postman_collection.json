@@ -1,0 +1,165 @@
+{
+  "info": {
+    "name": "Playo - Hybrid Story System",
+    "description": "API collection for the Hybrid Story System with story arcs, quests, and challenges",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Create Story Arc",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"characterName\": \"Aria\",\n  \"characterLevel\": 1,\n  \"characterClass\": \"Warrior\",\n  \"theme\": \"Epic Fantasy Adventure\",\n  \"setting\": \"Medieval Kingdom\",\n  \"plotFocus\": \"action\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/ai/story/arc/create",
+          "host": ["{{base_url}}"],
+          "path": ["api", "ai", "story", "arc", "create"]
+        },
+        "description": "Generate a complete 10-chapter story arc with quests and challenges"
+      },
+      "response": []
+    },
+    {
+      "name": "2. Generate Next Chapter",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"mainStoryArc\": {\n    \"id\": \"arc-123\",\n    \"title\": \"The Curse of Shadowmoor\",\n    \"currentChapter\": 2,\n    \"totalChapters\": 10,\n    \"worldState\": {\n      \"location\": \"Village of Brighthollow\",\n      \"timeOfDay\": \"afternoon\",\n      \"weatherCondition\": \"clear\"\n    }\n  },\n  \"characterState\": {\n    \"characterName\": \"Aria\",\n    \"level\": 3,\n    \"stats\": {\n      \"strength\": 6,\n      \"wisdom\": 5,\n      \"agility\": 7,\n      \"endurance\": 6,\n      \"luck\": 4\n    }\n  },\n  \"recentProgress\": [\n    {\n      \"title\": \"Morning Workout\",\n      \"category\": \"Fitness\",\n      \"difficulty\": \"MEDIUM\",\n      \"streakCount\": 7\n    },\n    {\n      \"title\": \"Meditation\",\n      \"category\": \"Wellness\",\n      \"difficulty\": \"EASY\",\n      \"streakCount\": 14\n    }\n  ],\n  \"previousChoices\": [\n    {\n      \"chapterId\": 2,\n      \"event\": \"Helped the merchant\",\n      \"outcome\": \"Gained merchant's trust\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/ai/story/chapter/next",
+          "host": ["{{base_url}}"],
+          "path": ["api", "ai", "story", "chapter", "next"]
+        },
+        "description": "Generate the next chapter based on player progress and choices"
+      },
+      "response": []
+    },
+    {
+      "name": "3. Check Challenge Readiness",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"challenge\": {\n    \"id\": \"challenge-1\",\n    \"title\": \"Defeat the Shadow Wolf\",\n    \"type\": \"combat\",\n    \"difficulty\": \"MEDIUM\",\n    \"requirements\": {\n      \"minLevel\": 3,\n      \"minStrength\": 5,\n      \"minAgility\": 4\n    }\n  },\n  \"characterState\": {\n    \"level\": 3,\n    \"stats\": {\n      \"strength\": 6,\n      \"wisdom\": 5,\n      \"agility\": 7,\n      \"endurance\": 6,\n      \"luck\": 4\n    }\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/ai/challenge/check",
+          "host": ["{{base_url}}"],
+          "path": ["api", "ai", "challenge", "check"]
+        },
+        "description": "Check if character meets requirements for a challenge"
+      },
+      "response": []
+    },
+    {
+      "name": "4. Attempt Combat Challenge",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"characterName\": \"Aria\",\n  \"characterState\": {\n    \"level\": 3,\n    \"stats\": {\n      \"strength\": 6,\n      \"wisdom\": 5,\n      \"agility\": 7,\n      \"endurance\": 6,\n      \"luck\": 4\n    }\n  },\n  \"challenge\": {\n    \"id\": \"challenge-1\",\n    \"title\": \"Defeat the Shadow Wolf\",\n    \"type\": \"combat\",\n    \"difficulty\": \"MEDIUM\",\n    \"requirements\": {\n      \"minLevel\": 3,\n      \"minStrength\": 5\n    },\n    \"enemy\": {\n      \"name\": \"Shadow Wolf\",\n      \"level\": 3,\n      \"stats\": {\n        \"health\": 100,\n        \"attack\": 15,\n        \"defense\": 10,\n        \"speed\": 12\n      },\n      \"weaknesses\": [\"fire\", \"light\"],\n      \"abilities\": [\"Shadow Strike\", \"Howl\"],\n      \"loot\": [\"Wolf Pelt\", \"Shadow Essence\"]\n    },\n    \"rewards\": {\n      \"xp\": 200,\n      \"gold\": 100,\n      \"items\": [\"Shadow Fang Dagger\"]\n    }\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/ai/challenge/attempt",
+          "host": ["{{base_url}}"],
+          "path": ["api", "ai", "challenge", "attempt"]
+        },
+        "description": "Attempt a combat challenge and get narrative results"
+      },
+      "response": []
+    },
+    {
+      "name": "5. Get Current Story",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/ai/story/current",
+          "host": ["{{base_url}}"],
+          "path": ["api", "ai", "story", "current"]
+        },
+        "description": "Get the current active story arc"
+      },
+      "response": []
+    },
+    {
+      "name": "Rate Limit Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/ai/rate-limit",
+          "host": ["{{base_url}}"],
+          "path": ["api", "ai", "rate-limit"]
+        },
+        "description": "Check current rate limit status"
+      },
+      "response": []
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/ai/health",
+          "host": ["{{base_url}}"],
+          "path": ["api", "ai", "health"]
+        },
+        "description": "Check Gemini service health"
+      },
+      "response": []
+    }
+  ]
+}
