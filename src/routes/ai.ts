@@ -572,29 +572,98 @@ router.post('/story/chapter/next', authenticate, async (req, res) => {
  * Check if character meets requirements for a challenge
  * 
  * Body:
- * - challenge: object (challenge to check)
- * - characterState: object (name, level, stats)
+ * - storyId: string (required)
+ * - challengeId: string (required)
  */
 router.post('/challenge/check', authenticate, async (req, res) => {
   try {
-    const { challenge, characterState } = req.body;
+    const authReq = req as AuthenticatedRequest;
+    const userId = authReq.user.id;
+    const { storyId, challengeId } = req.body;
 
-    // Validation
-    if (!challenge || !characterState) {
+    // Validate required fields
+    if (!storyId || !challengeId) {
       return res.status(400).json({
-        error: 'Missing required fields: challenge, characterState',
+        success: false,
+        error: 'Missing required fields: storyId, challengeId',
       });
     }
 
+    // Fetch story from database
+    const story = await prisma.story.findUnique({
+      where: { id: storyId },
+    });
+
+    if (!story) {
+      return res.status(404).json({
+        success: false,
+        error: 'Story not found',
+      });
+    }
+
+    if (story.userId !== userId) {
+      return res.status(403).json({
+        success: false,
+        error: 'You do not have access to this story',
+      });
+    }
+
+    // Fetch user data
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found',
+      });
+    }
+
+    // Parse story content to get challenges
+    const storyContent = typeof story.content === 'string' 
+      ? JSON.parse(story.content) 
+      : story.content;
+
+    // Find all challenges from story arc
+    const allChallenges = storyContent.challenges || [];
+
+    // Find the specific challenge by ID
+    const challenge = allChallenges.find((c: any) => c.id === challengeId);
+
+    if (!challenge) {
+      return res.status(404).json({
+        success: false,
+        error: `Challenge '${challengeId}' not found in story arc`,
+      });
+    }
+
+    // Build character state from user data
+    const characterState = {
+      level: user.level,
+      stats: typeof user.stats === 'string' ? JSON.parse(user.stats) : user.stats,
+    };
+
+    // Check readiness
     const readiness = geminiService.checkChallengeReadiness(challenge, characterState);
 
     return res.status(200).json({
       success: true,
-      data: readiness,
+      data: {
+        ...readiness,
+        challenge: {
+          id: challenge.id,
+          title: challenge.title,
+          difficulty: challenge.difficulty,
+          requirements: challenge.requirements,
+        },
+        characterState,
+      },
     });
   } catch (error: any) {
     console.error('Error checking challenge readiness:', error);
     return res.status(500).json({
+      success: false,
       error: 'Failed to check challenge readiness',
       message: error.message,
     });
@@ -606,50 +675,178 @@ router.post('/challenge/check', authenticate, async (req, res) => {
  * Attempt a combat challenge and get narrative results
  * 
  * Body:
- * - characterName: string
- * - characterState: object (level, stats)
- * - challenge: object (challenge details with enemy)
+ * - storyId: string (required)
+ * - challengeId: string (required)
  */
 router.post('/challenge/attempt', authenticate, async (req, res) => {
   try {
     const authReq = req as AuthenticatedRequest;
-    const userId = parseInt(authReq.user.id);
+    const userId = authReq.user.id;
+    const { storyId, challengeId } = req.body;
 
-    const { characterName, characterState, challenge } = req.body;
-
-    // Validation
-    if (!characterName || !characterState || !challenge || !challenge.enemy) {
+    // Validate required fields
+    if (!storyId || !challengeId) {
       return res.status(400).json({
-        error: 'Missing required fields: characterName, characterState, challenge (with enemy)',
+        success: false,
+        error: 'Missing required fields: storyId, challengeId',
       });
     }
 
-    // Check if character can attempt
+    // Fetch story from database
+    const story = await prisma.story.findUnique({
+      where: { id: storyId },
+    });
+
+    if (!story) {
+      return res.status(404).json({
+        success: false,
+        error: 'Story not found',
+      });
+    }
+
+    if (story.userId !== userId) {
+      return res.status(403).json({
+        success: false,
+        error: 'You do not have access to this story',
+      });
+    }
+
+    // Fetch user data
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found',
+      });
+    }
+
+    // Parse story content to get challenges
+    const storyContent = typeof story.content === 'string' 
+      ? JSON.parse(story.content) 
+      : story.content;
+
+    // Get unlocked challenges from story
+    const unlockedChallenges = story.unlockedChallenges && typeof story.unlockedChallenges === 'string'
+      ? JSON.parse(story.unlockedChallenges)
+      : story.unlockedChallenges || [];
+
+    // Find all challenges from story arc
+    const allChallenges = storyContent.challenges || [];
+
+    // Find the specific challenge by ID
+    const challenge = allChallenges.find((c: any) => c.id === challengeId);
+
+    if (!challenge) {
+      return res.status(404).json({
+        success: false,
+        error: `Challenge '${challengeId}' not found in story arc`,
+        availableChallenges: allChallenges.map((c: any) => ({ id: c.id, title: c.title })),
+      });
+    }
+
+    // Check if challenge is unlocked
+    const isUnlocked = unlockedChallenges.some((uc: any) => 
+      typeof uc === 'string' ? uc === challengeId : uc.id === challengeId
+    );
+
+    if (!isUnlocked && !challenge.unlocked) {
+      return res.status(403).json({
+        success: false,
+        error: 'This challenge is not yet unlocked',
+        hint: 'Progress through the story to unlock more challenges',
+      });
+    }
+
+    // Build character state from user data
+    const characterState = {
+      level: user.level,
+      stats: typeof user.stats === 'string' ? JSON.parse(user.stats) : user.stats,
+    };
+
+    const characterName = user.characterName || user.username;
+
+    // Check if character meets requirements
     const readiness = geminiService.checkChallengeReadiness(challenge, characterState);
     if (!readiness.canAttempt) {
       return res.status(403).json({
+        success: false,
         error: 'Character does not meet challenge requirements',
         reason: readiness.reason,
+        requirements: challenge.requirements,
+        currentStats: characterState,
       });
     }
 
     // Simulate combat
     const combatResult = geminiService.simulateCombat(characterState, challenge.enemy);
 
-    // Generate narrative
+    // Generate AI narrative for the combat
     const narrative = await geminiService.generateCombatNarrative(
       combatResult,
       characterName,
       challenge.enemy
     );
 
+    // If victory, update user XP and mark challenge as completed
+    if (combatResult.victory) {
+      const xpGain = challenge.rewards?.xp || 0;
+      const newXP = user.xp + xpGain;
+
+      // Update user in database
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          xp: newXP,
+          updatedAt: new Date(),
+        },
+      });
+
+      // Mark challenge as completed in story (if not already)
+      const completedChallenges = story.unlockedChallenges && typeof story.unlockedChallenges === 'string'
+        ? JSON.parse(story.unlockedChallenges)
+        : story.unlockedChallenges || [];
+
+      const challengeIndex = completedChallenges.findIndex((c: any) => 
+        typeof c === 'string' ? c === challengeId : c.id === challengeId
+      );
+
+      if (challengeIndex !== -1) {
+        // Mark as completed
+        if (typeof completedChallenges[challengeIndex] === 'string') {
+          completedChallenges[challengeIndex] = {
+            id: challengeId,
+            completed: true,
+            completedAt: new Date(),
+          };
+        } else {
+          completedChallenges[challengeIndex].completed = true;
+          completedChallenges[challengeIndex].completedAt = new Date();
+        }
+      }
+
+      // Update story with completed challenge
+      await prisma.story.update({
+        where: { id: storyId },
+        data: {
+          unlockedChallenges: JSON.stringify(completedChallenges),
+          updatedAt: new Date(),
+        },
+      });
+    }
+
     return res.status(200).json({
       success: true,
+      message: combatResult.victory ? 'Victory! Challenge completed!' : 'Defeat. Try again when stronger.',
       data: {
         userId,
         combatResult,
         narrative,
         rewards: combatResult.victory ? challenge.rewards : null,
+        xpGained: combatResult.victory ? challenge.rewards?.xp || 0 : 0,
+        newUserXP: combatResult.victory ? user.xp + (challenge.rewards?.xp || 0) : user.xp,
       },
     });
   } catch (error: any) {
@@ -663,6 +860,7 @@ router.post('/challenge/attempt', authenticate, async (req, res) => {
     }
 
     return res.status(500).json({
+      success: false,
       error: 'Failed to attempt challenge',
       message: error.message,
     });
