@@ -95,7 +95,7 @@ describe('GeminiService', () => {
 
       expect(result).toHaveProperty('story');
       expect(result).toHaveProperty('metadata');
-      expect(result.metadata.modelUsed).toBe('gemini-1.5-flash');
+      expect(result.metadata.modelUsed).toBe('gemini-2.5-flash');
       expect(result.metadata.tokensUsed).toBeGreaterThan(0);
       expect(result.metadata.generatedAt).toBeInstanceOf(Date);
     });

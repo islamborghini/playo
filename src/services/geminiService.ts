@@ -30,7 +30,7 @@ import {
 class GeminiService {
   private genAI: GoogleGenerativeAI;
   private model: GenerativeModel;
-  private readonly MODEL_NAME = 'gemini-1.5-flash';
+  private readonly MODEL_NAME = 'gemini-2.5-flash'; // Using Gemini 2.5 Flash
   private readonly MAX_RETRIES = 3;
   private readonly RETRY_DELAY_BASE = 1000; // 1 second
 
