@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { UserService } from '@/services/userService';
 import { generateTokens, verifyRefreshToken } from '@/utils/jwt';
+import { validatePasswordStrength } from '@/utils/password';
 import { ApiResponse, AuthenticatedRequest } from '@/types';
 
 const userService = new UserService();
@@ -60,11 +61,15 @@ export class AuthController {
       }
 
       // Validate password strength
-      if (password.length < 8) {
+      const passwordValidation = validatePasswordStrength(password);
+      if (!passwordValidation.isValid) {
         const response: ApiResponse = {
           success: false,
-          message: 'Password must be at least 8 characters long',
+          message: 'Password does not meet security requirements',
           error: 'WEAK_PASSWORD',
+          data: {
+            requirements: passwordValidation.errors,
+          },
           timestamp: new Date().toISOString(),
         };
         res.status(400).json(response);
@@ -398,11 +403,15 @@ export class AuthController {
       }
 
       // Validate new password strength
-      if (newPassword.length < 8) {
+      const passwordValidation = validatePasswordStrength(newPassword);
+      if (!passwordValidation.isValid) {
         const response: ApiResponse = {
           success: false,
-          message: 'New password must be at least 8 characters long',
+          message: 'New password does not meet security requirements',
           error: 'WEAK_PASSWORD',
+          data: {
+            requirements: passwordValidation.errors,
+          },
           timestamp: new Date().toISOString(),
         };
         res.status(400).json(response);
