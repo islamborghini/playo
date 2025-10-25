@@ -1,0 +1,355 @@
+{
+  "weapons": [
+    {
+      "id": "weapon_001",
+      "name": "Wooden Training Sword",
+      "type": "WEAPON",
+      "rarity": "COMMON",
+      "description": "A simple wooden sword used for basic training. Light and easy to wield.",
+      "requiredLevel": 1,
+      "stats": {
+        "strength": 2,
+        "agility": 1
+      },
+      "value": 10,
+      "icon": "⚔️"
+    },
+    {
+      "id": "weapon_002",
+      "name": "Iron Blade",
+      "type": "WEAPON",
+      "rarity": "COMMON",
+      "description": "A sturdy iron sword. Reliable for everyday battles.",
+      "requiredLevel": 3,
+      "stats": {
+        "strength": 5,
+        "agility": 2
+      },
+      "value": 50,
+      "icon": "🗡️"
+    },
+    {
+      "id": "weapon_003",
+      "name": "Steel Longsword",
+      "type": "WEAPON",
+      "rarity": "UNCOMMON",
+      "description": "A well-crafted steel longsword. Balanced and deadly.",
+      "requiredLevel": 5,
+      "stats": {
+        "strength": 8,
+        "agility": 3,
+        "endurance": 1
+      },
+      "value": 150,
+      "icon": "⚔️"
+    },
+    {
+      "id": "weapon_004",
+      "name": "Enchanted Staff",
+      "type": "WEAPON",
+      "rarity": "RARE",
+      "description": "A mystical staff imbued with ancient magic. Channels wisdom into power.",
+      "requiredLevel": 7,
+      "stats": {
+        "wisdom": 10,
+        "strength": 2,
+        "luck": 2
+      },
+      "value": 300,
+      "icon": "🪄"
+    },
+    {
+      "id": "weapon_005",
+      "name": "Dragon Slayer",
+      "type": "WEAPON",
+      "rarity": "EPIC",
+      "description": "A legendary blade forged from dragon scales. Few can wield its immense power.",
+      "requiredLevel": 15,
+      "stats": {
+        "strength": 15,
+        "agility": 5,
+        "endurance": 3,
+        "luck": 2
+      },
+      "value": 1000,
+      "icon": "🐉"
+    }
+  ],
+  "armor": [
+    {
+      "id": "armor_001",
+      "name": "Cloth Tunic",
+      "type": "ARMOR",
+      "rarity": "COMMON",
+      "description": "Basic cloth armor. Better than nothing.",
+      "requiredLevel": 1,
+      "stats": {
+        "endurance": 2
+      },
+      "value": 15,
+      "icon": "👕"
+    },
+    {
+      "id": "armor_002",
+      "name": "Leather Vest",
+      "type": "ARMOR",
+      "rarity": "COMMON",
+      "description": "Sturdy leather armor. Provides decent protection without hindering movement.",
+      "requiredLevel": 3,
+      "stats": {
+        "endurance": 5,
+        "agility": 1
+      },
+      "value": 60,
+      "icon": "🦺"
+    },
+    {
+      "id": "armor_003",
+      "name": "Chainmail Armor",
+      "type": "ARMOR",
+      "rarity": "UNCOMMON",
+      "description": "Interlocking metal rings provide excellent protection.",
+      "requiredLevel": 5,
+      "stats": {
+        "endurance": 10,
+        "strength": 2
+      },
+      "value": 200,
+      "icon": "🛡️"
+    },
+    {
+      "id": "armor_004",
+      "name": "Mage Robes",
+      "type": "ARMOR",
+      "rarity": "RARE",
+      "description": "Enchanted robes that enhance magical abilities and mental fortitude.",
+      "requiredLevel": 7,
+      "stats": {
+        "wisdom": 8,
+        "endurance": 5,
+        "luck": 3
+      },
+      "value": 350,
+      "icon": "🧙"
+    },
+    {
+      "id": "armor_005",
+      "name": "Plate Mail of the Ancients",
+      "type": "ARMOR",
+      "rarity": "EPIC",
+      "description": "Legendary armor worn by ancient heroes. Provides unmatched protection.",
+      "requiredLevel": 15,
+      "stats": {
+        "endurance": 20,
+        "strength": 5,
+        "agility": -2
+      },
+      "value": 1200,
+      "icon": "🛡️"
+    }
+  ],
+  "accessories": [
+    {
+      "id": "accessory_001",
+      "name": "Copper Ring",
+      "type": "ACCESSORY",
+      "rarity": "COMMON",
+      "description": "A simple copper ring. Provides a small boost to luck.",
+      "requiredLevel": 1,
+      "stats": {
+        "luck": 2
+      },
+      "value": 20,
+      "icon": "💍"
+    },
+    {
+      "id": "accessory_002",
+      "name": "Silver Amulet",
+      "type": "ACCESSORY",
+      "rarity": "UNCOMMON",
+      "description": "A silver amulet that sharpens the mind and brings good fortune.",
+      "requiredLevel": 4,
+      "stats": {
+        "wisdom": 3,
+        "luck": 3
+      },
+      "value": 100,
+      "icon": "📿"
+    },
+    {
+      "id": "accessory_003",
+      "name": "Ring of Swiftness",
+      "type": "ACCESSORY",
+      "rarity": "RARE",
+      "description": "A magical ring that enhances speed and reflexes.",
+      "requiredLevel": 6,
+      "stats": {
+        "agility": 8,
+        "luck": 2
+      },
+      "value": 250,
+      "icon": "💍"
+    },
+    {
+      "id": "accessory_004",
+      "name": "Crown of Wisdom",
+      "type": "ACCESSORY",
+      "rarity": "EPIC",
+      "description": "An ancient crown that grants profound insight and knowledge.",
+      "requiredLevel": 10,
+      "stats": {
+        "wisdom": 12,
+        "luck": 5
+      },
+      "value": 800,
+      "icon": "👑"
+    },
+    {
+      "id": "accessory_005",
+      "name": "Phoenix Feather Pendant",
+      "type": "ACCESSORY",
+      "rarity": "LEGENDARY",
+      "description": "A pendant containing a genuine phoenix feather. Grants incredible resilience and fortune.",
+      "requiredLevel": 20,
+      "stats": {
+        "endurance": 10,
+        "luck": 10,
+        "wisdom": 5
+      },
+      "value": 2000,
+      "icon": "🔥"
+    }
+  ],
+  "consumables": [
+    {
+      "id": "consumable_001",
+      "name": "Health Potion",
+      "type": "CONSUMABLE",
+      "rarity": "COMMON",
+      "description": "Restores 50 health points instantly.",
+      "requiredLevel": 1,
+      "effect": {
+        "type": "HEAL",
+        "value": 50
+      },
+      "value": 25,
+      "icon": "🧪"
+    },
+    {
+      "id": "consumable_002",
+      "name": "Strength Elixir",
+      "type": "CONSUMABLE",
+      "rarity": "UNCOMMON",
+      "description": "Temporarily increases strength by 5 for one battle.",
+      "requiredLevel": 3,
+      "effect": {
+        "type": "BUFF",
+        "stat": "strength",
+        "value": 5,
+        "duration": "1_BATTLE"
+      },
+      "value": 50,
+      "icon": "💪"
+    },
+    {
+      "id": "consumable_003",
+      "name": "Wisdom Scroll",
+      "type": "CONSUMABLE",
+      "rarity": "UNCOMMON",
+      "description": "Grants 100 bonus XP when used. Knowledge is power!",
+      "requiredLevel": 5,
+      "effect": {
+        "type": "XP_BOOST",
+        "value": 100
+      },
+      "value": 75,
+      "icon": "📜"
+    },
+    {
+      "id": "consumable_004",
+      "name": "Lucky Charm",
+      "type": "CONSUMABLE",
+      "rarity": "RARE",
+      "description": "Increases luck by 10 for the next 3 battles.",
+      "requiredLevel": 7,
+      "effect": {
+        "type": "BUFF",
+        "stat": "luck",
+        "value": 10,
+        "duration": "3_BATTLES"
+      },
+      "value": 150,
+      "icon": "🍀"
+    }
+  ],
+  "questItems": [
+    {
+      "id": "quest_001",
+      "name": "Ancient Map Fragment",
+      "type": "QUEST_ITEM",
+      "rarity": "UNCOMMON",
+      "description": "A torn piece of an ancient map. Might lead to hidden treasure.",
+      "requiredLevel": 1,
+      "stats": {},
+      "value": 0,
+      "icon": "🗺️"
+    },
+    {
+      "id": "quest_002",
+      "name": "Crystal Key",
+      "type": "QUEST_ITEM",
+      "rarity": "RARE",
+      "description": "A mysterious crystalline key. It hums with magical energy.",
+      "requiredLevel": 5,
+      "stats": {},
+      "value": 0,
+      "icon": "🔑"
+    },
+    {
+      "id": "quest_003",
+      "name": "Dragon Scale",
+      "type": "QUEST_ITEM",
+      "rarity": "EPIC",
+      "description": "A scale from an ancient dragon. Incredibly rare and valuable.",
+      "requiredLevel": 10,
+      "stats": {},
+      "value": 0,
+      "icon": "🐲"
+    }
+  ],
+  "cosmetics": [
+    {
+      "id": "cosmetic_001",
+      "name": "Adventurer's Hat",
+      "type": "COSMETIC",
+      "rarity": "COMMON",
+      "description": "A stylish hat that makes you look like a seasoned adventurer.",
+      "requiredLevel": 1,
+      "stats": {},
+      "value": 30,
+      "icon": "🎩"
+    },
+    {
+      "id": "cosmetic_002",
+      "name": "Hero's Cape",
+      "type": "COSMETIC",
+      "rarity": "UNCOMMON",
+      "description": "A flowing cape that billows dramatically in the wind.",
+      "requiredLevel": 5,
+      "stats": {},
+      "value": 100,
+      "icon": "🦸"
+    },
+    {
+      "id": "cosmetic_003",
+      "name": "Golden Crown",
+      "type": "COSMETIC",
+      "rarity": "RARE",
+      "description": "A magnificent golden crown. Shows everyone you're royalty.",
+      "requiredLevel": 10,
+      "stats": {},
+      "value": 500,
+      "icon": "👑"
+    }
+  ]
+}

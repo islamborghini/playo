@@ -19,6 +19,7 @@ import storyRoutes from '@/routes/stories';
 import characterRoutes from '@/routes/character';
 import inventoryRoutes from '@/routes/inventory';
 import aiRoutes from '@/routes/ai';
+import itemCatalogRoutes from '@/routes/itemCatalog';
 
 class App {
   public app: Application;
@@ -104,6 +105,7 @@ class App {
             character: '/api/character',
             inventory: '/api/inventory',
             ai: '/api/ai',
+            catalog: '/api/catalog',
           },
         },
         timestamp: new Date().toISOString(),
@@ -121,6 +123,7 @@ class App {
     this.app.use('/api/character', characterRoutes);
     this.app.use('/api/inventory', inventoryRoutes);
     this.app.use('/api/ai', aiRoutes);
+    this.app.use('/api/catalog', itemCatalogRoutes);
 
     // Catch all unmatched routes
     this.app.use('*', notFoundHandler);
