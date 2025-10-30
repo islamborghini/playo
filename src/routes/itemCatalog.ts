@@ -99,7 +99,8 @@ router.get('/items', (_req, res) => {
  */
 router.get('/items/type/:type', (req, res): void => {
   try {
-    const { type } = req.params;
+    // Trim whitespace/newlines from the type parameter
+    const type = req.params.type.trim().toUpperCase();
 
     if (!Object.values(ItemType).includes(type as ItemType)) {
       const response: ApiResponse = {
