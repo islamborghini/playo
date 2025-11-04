@@ -7,6 +7,8 @@
 import { Router } from 'express';
 import { itemCatalogService } from '@/services/itemCatalogService';
 import { authenticate } from '@/middleware/auth';
+import { validate } from '@/middleware/validate';
+import { schemas } from '@/schemas/validation.schemas';
 import { AuthenticatedRequest, ApiResponse } from '@/types';
 import { ItemType } from '@/generated/prisma';
 import { ItemRarity } from '@/types/items';
@@ -290,7 +292,7 @@ router.get('/recommended', authenticate, async (req, res) => {
  * Grant item to user (admin/testing endpoint)
  * Requires authentication
  */
-router.post('/grant', authenticate, async (req, res): Promise<void> => {
+router.post('/grant', authenticate, validate(schemas.grantItem), async (req, res): Promise<void> => {
   try {
     const authReq = req as AuthenticatedRequest;
     const { itemId, quantity = 1, reason } = req.body;

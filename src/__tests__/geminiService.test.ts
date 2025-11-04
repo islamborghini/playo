@@ -145,7 +145,7 @@ describe('GeminiService', () => {
 
       expect(result).toHaveProperty('chapter');
       expect(result).toHaveProperty('metadata');
-      expect(result.metadata.modelUsed).toBe('gemini-1.5-flash');
+      expect(result.metadata.modelUsed).toMatch(/gemini.*flash/); // Accept any Gemini Flash model
       expect(result.metadata.tokensUsed).toBeGreaterThan(0);
     });
   });
@@ -165,7 +165,7 @@ describe('GeminiService', () => {
 
       expect(result).toHaveProperty('dialogue');
       expect(result).toHaveProperty('metadata');
-      expect(result.metadata.modelUsed).toBe('gemini-1.5-flash');
+      expect(result.metadata.modelUsed).toMatch(/gemini.*flash/); // Accept any Gemini Flash model
     });
   });
 

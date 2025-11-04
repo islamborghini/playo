@@ -1,4 +1,6 @@
 import { Router } from 'express';
+// import { validate } from '@/middleware/validate';
+// import { schemas } from '@/schemas/validation.schemas';
 import { ApiResponse } from '@/types';
 
 const router = Router();
@@ -22,9 +24,8 @@ router.get('/', (_req, res) => {
 });
 
 // TODO: Implement story routes
-// router.get('/current', authMiddleware, storyController.getCurrentStory);
-// router.post('/generate', authMiddleware, storyController.generateStory);
-// router.get('/progress', authMiddleware, storyController.getProgress);
-// router.get('/chapters', authMiddleware, storyController.getChapters);
+// When implementing, add validation like this:
+// router.post('/generate', authMiddleware, validate(schemas.generateStory), storyController.generateStory);
+// router.put('/preferences', authMiddleware, validate(schemas.storyPreferences), storyController.updatePreferences);
 
 export default router;

@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { TaskController } from '@/controllers/taskController';
 import { authenticate } from '@/middleware/auth';
+import { validate } from '@/middleware/validate';
+import { schemas } from '@/schemas/validation.schemas';
 import { ApiResponse } from '@/types';
 
 const router = Router();
@@ -30,9 +32,9 @@ router.get('/info', (_req, res) => {
 // Task CRUD and management routes (all require authentication)
 router.get('/stats', authenticate, taskController.getTaskStats.bind(taskController));
 router.get('/', authenticate, taskController.getTasks.bind(taskController));
-router.post('/', authenticate, taskController.createTask.bind(taskController));
+router.post('/', authenticate, validate(schemas.createTask), taskController.createTask.bind(taskController));
 router.get('/:id', authenticate, taskController.getTask.bind(taskController));
-router.put('/:id', authenticate, taskController.updateTask.bind(taskController));
+router.put('/:id', authenticate, validate(schemas.updateTask), taskController.updateTask.bind(taskController));
 router.delete('/:id', authenticate, taskController.deleteTask.bind(taskController));
 router.post('/:id/complete', authenticate, taskController.completeTask.bind(taskController));
 

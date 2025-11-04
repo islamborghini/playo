@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { AuthController } from '@/controllers/authController';
 import { authenticate } from '@/middleware/auth';
+import { validate } from '@/middleware/validate';
+import { schemas } from '@/schemas/validation.schemas';
 import { ApiResponse } from '@/types';
 
 const router = Router();
@@ -29,10 +31,10 @@ router.get('/', (_req, res) => {
 });
 
 // POST /api/auth/login - User login
-router.post('/login', authController.login.bind(authController));
+router.post('/login', validate(schemas.login), authController.login.bind(authController));
 
 // POST /api/auth/register - User registration
-router.post('/register', authController.register.bind(authController));
+router.post('/register', validate(schemas.register), authController.register.bind(authController));
 
 // POST /api/auth/refresh - Refresh access token
 router.post('/refresh', authController.refreshToken.bind(authController));
@@ -47,7 +49,7 @@ router.get('/profile', authenticate, authController.getProfile.bind(authControll
 router.put('/profile', authenticate, authController.updateProfile.bind(authController));
 
 // PUT /api/auth/change-password - Change user password (protected)
-router.put('/change-password', authenticate, authController.changePassword.bind(authController));
+router.put('/change-password', authenticate, validate(schemas.changePassword), authController.changePassword.bind(authController));
 
 // POST /api/auth/logout - User logout
 router.post('/logout', authenticate, authController.logout.bind(authController));
