@@ -1093,7 +1093,7 @@ MIT License - See LICENSE file for details
 ## Support
 
 - **Issues**: GitHub Issues
-- **Email**: support@playo.com
+- **Email**: islamassanov66@gmail.com
 - **Documentation**: This file
 
 ---
