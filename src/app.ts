@@ -7,8 +7,7 @@ import { config } from '@/utils/config';
 import { ApiResponse } from '@/types';
 
 // Import middleware
-import { errorHandler } from '@/middleware/errorHandler';
-import { notFoundHandler } from '@/middleware/notFoundHandler';
+import { errorHandler, notFoundHandler } from '@/middleware/errorHandler';
 import { generalRateLimiter, authRateLimiter, aiRateLimiter } from '@/middleware/rateLimiter';
 
 // Import routes

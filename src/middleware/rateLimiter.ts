@@ -3,10 +3,8 @@
  */
 
 import rateLimit from 'express-rate-limit';
-import RedisStore from 'rate-limit-redis';
-import redisClient from '@/config/redis';
 import { Request, Response } from 'express';
-import { ApiResponse, AuthenticatedRequest } from '@/types';
+import { ApiResponse } from '@/types';
 
 // Admin IP whitelist
 const ADMIN_IPS = (process.env.ADMIN_WHITELIST_IPS || '127.0.0.1,::1').split(',');
@@ -39,25 +37,9 @@ const rateLimitHandler = (_req: Request, res: Response): void => {
 };
 
 /**
- * Create Redis store or fallback to memory store
- */
-const getStoreConfig = () => {
-  if (redisClient.isOpen) {
-    return {
-      store: new RedisStore({
-        // @ts-expect-error - RedisStore types are not fully compatible
-        client: redisClient,
-        prefix: 'rl:',
-      }),
-    };
-  }
-  console.warn('⚠️  Using memory store for rate limiting (Redis not available)');
-  return {}; // Use default memory store
-};
-
-/**
  * General API Rate Limiter
  * 100 requests per 15 minutes per IP
+ * Using in-memory store for MVP (can add Redis later)
  */
 export const generalRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -67,12 +49,12 @@ export const generalRateLimiter = rateLimit({
   legacyHeaders: false,
   skip: skipWhitelistedIPs,
   handler: rateLimitHandler,
-  ...getStoreConfig(),
 });
 
 /**
  * Auth Rate Limiter
  * 5 requests per 15 minutes per IP
+ * Using in-memory store for MVP
  */
 export const authRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -82,12 +64,12 @@ export const authRateLimiter = rateLimit({
   legacyHeaders: false,
   skip: skipWhitelistedIPs,
   handler: rateLimitHandler,
-  ...getStoreConfig(),
 });
 
 /**
  * AI Generation Rate Limiter
- * 10 requests per hour per user
+ * 10 requests per hour per IP/user
+ * Using in-memory store for MVP
  */
 export const aiRateLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
@@ -97,10 +79,9 @@ export const aiRateLimiter = rateLimit({
   legacyHeaders: false,
   skip: skipWhitelistedIPs,
   handler: rateLimitHandler,
-  ...getStoreConfig(),
-  // Use user ID instead of IP for authenticated requests
+  // Use user ID if authenticated, otherwise IP
   keyGenerator: (req: Request): string => {
-    const authReq = req as AuthenticatedRequest;
+    const authReq = req as any; // Simple type assertion for user property
     return authReq.user?.id || req.ip || 'unknown';
   },
 });
