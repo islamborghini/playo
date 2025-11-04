@@ -1,4 +1,4 @@
-<div align="center"># 🎮 Playo - AI-Powered Habit Tracking RPG# 🎮 playo - AI-Powered Habit Tracking RPG
+<div align="center"><div align="center"># 🎮 Playo - AI-Powered Habit Tracking RPG# 🎮 playo - AI-Powered Habit Tracking RPG
 
 
 
@@ -6,265 +6,533 @@
 
 
 
-**Turn your daily habits into an epic RPG adventure!**Turn your daily habits into epic adventures! Playo combines habit tracking with AI-generated stories and RPG mechanics.> Transform your daily habits into an epic adventure! Complete real-life tasks to level up your character, unlock challenges, and shape an AI-generated story that reflects YOUR progress.
+**Transform your daily habits into an epic RPG adventure**# 🎮 Playo
 
 
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
+
+[![Express](https://img.shields.io/badge/Express-4.x-000000?style=flat&logo=express&logoColor=white)](https://expressjs.com/)**Turn your daily habits into an epic RPG adventure!**Turn your daily habits into epic adventures! Playo combines habit tracking with AI-generated stories and RPG mechanics.> Transform your daily habits into an epic adventure! Complete real-life tasks to level up your character, unlock challenges, and shape an AI-generated story that reflects YOUR progress.
+
+[![Prisma](https://img.shields.io/badge/Prisma-5.x-2D3748?style=flat&logo=prisma&logoColor=white)](https://www.prisma.io/)
+
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=black)](https://reactjs.org/)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 
+</div>
+
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
+
+## 🌟 What is Playo?
 
 [![Express](https://img.shields.io/badge/Express-4.x-lightgrey.svg)](https://expressjs.com/)## 📁 Project Structure[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 
+Playo is a habit tracking app that turns your real-life progress into a personalized RPG adventure. Complete tasks, level up your character, and experience an AI-generated story that adapts to your achievements.
+
 [![Prisma](https://img.shields.io/badge/Prisma-5.x-2D3748.svg)](https://www.prisma.io/)
+
+**The magic:** Your morning workout doesn't just give you XP—it appears in the story as your character's training paying off in battle.
 
 [![React](https://img.shields.io/badge/React-18-61DAFB.svg)](https://reactjs.org/)[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 
-[![Google Gemini](https://img.shields.io/badge/AI-Google_Gemini-orange.svg)](https://ai.google.dev/)
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)```[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-
-
-[Features](#-features) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [API Reference](./backend/docs/API_REFERENCE.md)playo/
-
-
-
-</div>├── backend/          # Node.js + Express + Prisma API## � What is playo?
-
-
-
----│   ├── src/         # TypeScript source code
-
-
-
-## 🌟 What is Playo?│   ├── prisma/      # Database schema and migrations**playo** is a revolutionary habit tracking RPG that combines:
-
-
-
-**Playo** is a habit tracking app that transforms your real-life progress into a personalized RPG adventure. Complete tasks, level up your character, and watch an AI-generated story adapt to your achievements.│   └── docs/        # Backend documentation- 📚 **Epic Story Arcs** - 10-chapter narratives with branching paths
-
-
-
-### The Magic Formula├── frontend/         # React + TypeScript + Vite UI (coming soon)- ✅ **Real Habit Tracking** - Your completed tasks power character growth
-
-
-
-```│   ├── src/         # React components and pages- ⚔️ **Combat Challenges** - Fight enemies when your stats are high enough
-
-Your Real Habits + AI Storytelling = Personalized RPG Experience
-
-```│   └── public/      # Static assets- 🎲 **Dynamic Storytelling** - AI generates chapters reflecting YOUR actual progress
-
-
-
-**Example:**  └── README.md        # This file- 🏆 **Quest System** - Quests tied to real-life habit completion
-
-You complete "Morning Workout" for 7 days straight → Your character gains +2 Strength → New story chapter reflects your training → Combat challenge unlocks → Epic AI-narrated battle!
-
-```
-
-### Key Differentiators
-
-**The Innovation:** Your morning workout doesn't just give you XP—it appears in the story as your character's training paying off in battle!
-
-- **Real Habits = Real Progress**: No grinding, no fake tasks. Your actual life improvements drive the game.
-
-- **AI-Adaptive Storytelling**: Google Gemini generates unique stories that reference YOUR specific accomplishments.## 🚀 Quick Start
-
-- **Hybrid System**: Structured RPG mechanics (stats, levels, combat) meet dynamic AI narratives.
-
-## ✨ Core Features
-
----
-
-### Backend Setup
-
 ## ✨ Features
 
-### 🤖 Hybrid Story System
+[![Google Gemini](https://img.shields.io/badge/AI-Google_Gemini-orange.svg)](https://ai.google.dev/)
 
-### 🤖 Hybrid Story System
+- 🤖 **AI-Generated Story Arcs** - 10-chapter narratives powered by Google Gemini
 
-- **10-Chapter Story Arcs** - Complete narratives generated by Google Gemini AI```bash- **Main Story Arcs**: Complete 10-chapter adventures generated by Google Gemini AI
+- 📈 **Character Progression** - Level up and gain stats from real habits[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)```[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-- **Dynamic Chapters** - Story continues based on tasks you've completed
+- ✅ **Task Management** - Daily habits and todos with streak tracking
 
-- **Branching Narratives** - Your choices shape the plotcd backend- **Dynamic Chapters**: Story continues based on tasks you've completed
+- ⚔️ **Combat Challenges** - AI-narrated battles with stat-based outcomes
 
-- **Quest Integration** - Story quests tied to real-life habits
+- 🎒 **Equipment System** - Unlock and equip items as rewards
 
-npm install- **Branching Narratives**: Your choices matter and shape the plot
+- 🔄 **Dynamic Storytelling** - Story reflects YOUR actual accomplishments[Features](#-features) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [API Reference](./backend/docs/API_REFERENCE.md)playo/
 
-### 📈 Character Progression
 
-- **Level Up** - Gain XP from completing taskscp .env.example .env  # Configure your environment variables- **Quest Integration**: In-game quests tied to real habits (e.g., "Complete 3 workouts")
 
-- **Six Core Stats** - Strength, Agility, Endurance, Intelligence, Wisdom, Charisma
+## 🚀 Quick Start
 
-- **Stat-Task Mapping** - Workout → Strength, Reading → Wisdom, etc.npx prisma generate- **Challenge System**: Combat/puzzle encounters unlocked by stat requirements
 
-- **Equipment System** - Unlock and equip items as rewards
 
-npx prisma db push
+### Prerequisites</div>├── backend/          # Node.js + Express + Prisma API## � What is playo?
 
-### ✅ Task Management
 
-- **Daily Habits** - Recurring tasks with streak trackingnpm run dev### 📊 Habit Management
 
-- **One-Time Todos** - Single completion tasks
+- Node.js 18+
 
-- **Streak Bonuses** - Extra rewards for consistency (7, 14, 30, 60, 100+ days)```- **Daily Tasks**: Track recurring habits with streak counting
+- npm 8+
 
-- **Task Categories** - Fitness, learning, creativity, social, productivity
+- Google Gemini API Key ([get one here](https://makersuite.google.com/app/apikey))---│   ├── src/         # TypeScript source code
 
-- **Habits**: Build consistency with intelligent reminders
 
-### ⚔️ Combat Challenges
 
-- **Stat Requirements** - Unlock when you meet level/stat thresholdsBackend runs on `http://localhost:3000`- **To-Dos**: One-time tasks with priorities
+### Installation
 
-- **AI Battle Narratives** - Combat outcomes described by Gemini AI
 
-- **Win Rewards** - XP, gold, items, story progression- **Difficulty Levels**: EASY, MEDIUM, HARD tasks for varied XP
 
-- **Boss Battles** - Major milestones with epic rewards
+```bash## 🌟 What is Playo?│   ├── prisma/      # Database schema and migrations**playo** is a revolutionary habit tracking RPG that combines:
 
-### Frontend Setup (Coming Soon)- **Categories**: Fitness, Learning, Wellness, Productivity, etc.
+# Clone the repository
 
----
-
-
-
-## 🏗️ Project Structure
-
-```bash### 🏆 Character Progression
-
-```
-
-playo/cd frontend- **Level System**: Gain XP from completed tasks
-
-├── backend/              # Node.js + Express + Prisma API
-
-│   ├── src/npm install- **6 Core Stats**: Strength, Wisdom, Agility, Endurance, Luck, Charisma
-
-│   │   ├── controllers/  # Route handlers
-
-│   │   ├── services/     # Business logic (AI, XP, inventory, streaks)npm run dev- **Stat Growth**: Different tasks boost different stats
-
-│   │   ├── routes/       # API endpoints (auth, tasks, story, inventory)
-
-│   │   ├── middleware/   # Auth, rate limiting, error handling```- **Equipment**: Unlock items through story progression
-
-│   │   ├── types/        # TypeScript definitions
-
-│   │   └── utils/        # Helper functions- **Inventory System**: Collect loot from challenges
-
-│   ├── prisma/           # Database schema and migrations
-
-│   ├── docs/             # Backend documentationFrontend will run on `http://localhost:5173`
-
-│   └── package.json
-
-│### ⚔️ Combat & Challenges
-
-├── frontend/             # React + TypeScript + Vite (coming soon)
-
-│   ├── src/## 🛠️ Tech Stack- **Stat-Based Combat**: STR/AGI/END/LUCK determine battle outcomes
-
-│   └── package.json
-
-│- **AI Narratives**: Exciting battle descriptions for every encounter
-
-└── README.md             # This file
-
-```### Backend- **Enemy Variety**: Different enemies with unique abilities
-
-
-
----- **Runtime:** Node.js + TypeScript- **Difficulty Tiers**: EASY → MEDIUM → HARD → EPIC challenges
-
-
-
-## 🚀 Quick Start- **Framework:** Express.js- **Rewards**: XP, gold, equipment, and story progression
-
-
-
-### Prerequisites- **Database:** PostgreSQL with Prisma ORM
-
-
-
-- **Node.js** 18+ LTS- **AI:** Google Gemini 2.5 Flash## 🛠 Technology Stack
-
-- **npm** 8+
-
-- **Google Gemini API Key** - Get from [Google AI Studio](https://makersuite.google.com/app/apikey)- **Auth:** JWT
-
-
-
-### Backend Setup (5 minutes)### Backend
-
-
-
-```bash### Frontend- **Runtime**: Node.js 18+ with TypeScript 5.0
-
-# 1. Clone the repository
-
-git clone https://github.com/islamborghini/playo.git- **Framework:** React 18 + TypeScript- **Framework**: Express.js with async/await
+git clone https://github.com/islamborghini/playo.git
 
 cd playo/backend
 
-- **Build Tool:** Vite- **Database**: SQLite (dev) / PostgreSQL (prod) via Prisma ORM
+**Playo** is a habit tracking app that transforms your real-life progress into a personalized RPG adventure. Complete tasks, level up your character, and watch an AI-generated story adapt to your achievements.│   └── docs/        # Backend documentation- 📚 **Epic Story Arcs** - 10-chapter narratives with branching paths
 
-# 2. Install dependencies
+# Install dependencies
 
-npm install- **Styling:** Tailwind CSS- **Authentication**: JWT with bcrypt password hashing
+npm install
 
 
 
-# 3. Set up environment variables- **State:** React Query + Context API- **AI Service**: Google Gemini 1.5 Flash for story generation
+# Set up environment### The Magic Formula├── frontend/         # React + TypeScript + Vite UI (coming soon)- ✅ **Real Habit Tracking** - Your completed tasks power character growth
 
 cp .env.example .env
 
-# Add your GEMINI_API_KEY to .env- **Routing:** React Router v6
+# Add your GEMINI_API_KEY to .env
 
 
 
-# 4. Set up database### Architecture
+# Set up database```│   ├── src/         # React components and pages- ⚔️ **Combat Challenges** - Fight enemies when your stats are high enough
 
 npx prisma migrate dev
 
-## 📖 Documentation- RESTful API design
-
-# 5. Seed demo data
-
-npx tsx prisma/seed.ts- Service layer pattern for business logic
+npx tsx prisma/seed.tsYour Real Habits + AI Storytelling = Personalized RPG Experience
 
 
 
-# 6. Start server- [Backend API Documentation](./backend/docs/API_REFERENCE.md)- Prisma for type-safe database access
+# Start server```│   └── public/      # Static assets- 🎲 **Dynamic Storytelling** - AI generates chapters reflecting YOUR actual progress
 
 npm run dev
 
+```
+
+
+
+Server runs on `http://localhost:3000`**Example:**  └── README.md        # This file- 🏆 **Quest System** - Quests tied to real-life habit completion
+
+
+
+### Test the APIYou complete "Morning Workout" for 7 days straight → Your character gains +2 Strength → New story chapter reflects your training → Combat challenge unlocks → Epic AI-narrated battle!
+
+
+
+```bash```
+
+# Login with demo account
+
+curl -X POST http://localhost:3000/api/auth/login \### Key Differentiators
+
+  -H "Content-Type: application/json" \
+
+  -d '{"email": "demo@example.com", "password": "Demo@123456"}'**The Innovation:** Your morning workout doesn't just give you XP—it appears in the story as your character's training paying off in battle!
+
+
+
+# Create a story arc (replace YOUR_TOKEN with the token from login)- **Real Habits = Real Progress**: No grinding, no fake tasks. Your actual life improvements drive the game.
+
+curl -X POST http://localhost:3000/api/ai/story/arc/create \
+
+  -H "Authorization: Bearer YOUR_TOKEN" \- **AI-Adaptive Storytelling**: Google Gemini generates unique stories that reference YOUR specific accomplishments.## 🚀 Quick Start
+
+  -H "Content-Type: application/json" \
+
+  -d '{- **Hybrid System**: Structured RPG mechanics (stats, levels, combat) meet dynamic AI narratives.
+
+    "characterName": "Aria",
+
+    "characterLevel": 1,## ✨ Core Features
+
+    "characterClass": "Warrior"
+
+  }'---
+
+```
+
+### Backend Setup
+
+📖 Full tutorial: [Quick Start Guide](./backend/docs/QUICK_START.md)
+
+## ✨ Features
+
+## 🎯 How It Works
+
+### 🤖 Hybrid Story System
+
+```
+
+1. Complete Real Tasks### 🤖 Hybrid Story System
+
+   Morning workout, reading, meditation...
+
+   ↓- **10-Chapter Story Arcs** - Complete narratives generated by Google Gemini AI```bash- **Main Story Arcs**: Complete 10-chapter adventures generated by Google Gemini AI
+
+2. Gain Stats & XP
+
+   Fitness → Strength | Learning → Wisdom- **Dynamic Chapters** - Story continues based on tasks you've completed
+
+   ↓
+
+3. Story Adapts- **Branching Narratives** - Your choices shape the plotcd backend- **Dynamic Chapters**: Story continues based on tasks you've completed
+
+   AI generates chapter reflecting YOUR progress
+
+   ↓- **Quest Integration** - Story quests tied to real-life habits
+
+4. Unlock Challenges
+
+   Meet stat requirements → Combat unlocksnpm install- **Branching Narratives**: Your choices matter and shape the plot
+
+   ↓
+
+5. Win Rewards### 📈 Character Progression
+
+   XP, gold, equipment, story progression
+
+```- **Level Up** - Gain XP from completing taskscp .env.example .env  # Configure your environment variables- **Quest Integration**: In-game quests tied to real habits (e.g., "Complete 3 workouts")
+
+
+
+**Example:** Complete "Morning Workout" for 7 days → Gain +2 Strength → Level up → Story mentions your training → Forest Trial challenge unlocks- **Six Core Stats** - Strength, Agility, Endurance, Intelligence, Wisdom, Charisma
+
+
+
+## 🏗️ Project Structure- **Stat-Task Mapping** - Workout → Strength, Reading → Wisdom, etc.npx prisma generate- **Challenge System**: Combat/puzzle encounters unlocked by stat requirements
+
+
+
+```- **Equipment System** - Unlock and equip items as rewards
+
+playo/
+
+├── backend/           # Node.js + Express + Prisma APInpx prisma db push
+
+│   ├── src/
+
+│   │   ├── controllers/### ✅ Task Management
+
+│   │   ├── services/
+
+│   │   ├── routes/- **Daily Habits** - Recurring tasks with streak trackingnpm run dev### 📊 Habit Management
+
+│   │   ├── middleware/
+
+│   │   └── types/- **One-Time Todos** - Single completion tasks
+
+│   ├── prisma/
+
+│   └── docs/- **Streak Bonuses** - Extra rewards for consistency (7, 14, 30, 60, 100+ days)```- **Daily Tasks**: Track recurring habits with streak counting
+
+├── frontend/          # React + Vite (coming soon)
+
+└── README.md- **Task Categories** - Fitness, learning, creativity, social, productivity
+
+```
+
+- **Habits**: Build consistency with intelligent reminders
+
+## 🛠️ Tech Stack
+
+### ⚔️ Combat Challenges
+
+### Backend
+
+- **Runtime:** Node.js 18 + TypeScript 5- **Stat Requirements** - Unlock when you meet level/stat thresholdsBackend runs on `http://localhost:3000`- **To-Dos**: One-time tasks with priorities
+
+- **Framework:** Express.js
+
+- **Database:** SQLite (dev) / PostgreSQL (prod) via Prisma- **AI Battle Narratives** - Combat outcomes described by Gemini AI
+
+- **Auth:** JWT with bcrypt
+
+- **AI:** Google Gemini 2.5 Flash- **Win Rewards** - XP, gold, items, story progression- **Difficulty Levels**: EASY, MEDIUM, HARD tasks for varied XP
+
+
+
+### Frontend (Coming Soon)- **Boss Battles** - Major milestones with epic rewards
+
+- **Framework:** React 18 + TypeScript
+
+- **Build:** Vite### Frontend Setup (Coming Soon)- **Categories**: Fitness, Learning, Wellness, Productivity, etc.
+
+- **Styling:** Tailwind CSS
+
+- **State:** React Query + Context API---
+
+
+
+## 📡 API Endpoints
+
+
+
+### Authentication## 🏗️ Project Structure
+
+- `POST /api/auth/register` - Create account
+
+- `POST /api/auth/login` - Login & get JWT```bash### 🏆 Character Progression
+
+- `POST /api/auth/refresh` - Refresh token
+
+```
+
+### Story System
+
+- `POST /api/ai/story/arc/create` - Generate 10-chapter storyplayo/cd frontend- **Level System**: Gain XP from completed tasks
+
+- `GET /api/ai/story/current` - Get active story
+
+- `POST /api/ai/story/chapter/next` - Continue story├── backend/              # Node.js + Express + Prisma API
+
+- `POST /api/ai/challenge/check` - Check challenge eligibility
+
+- `POST /api/ai/challenge/attempt` - Attempt combat│   ├── src/npm install- **6 Core Stats**: Strength, Wisdom, Agility, Endurance, Luck, Charisma
+
+
+
+### Tasks│   │   ├── controllers/  # Route handlers
+
+- `GET /api/tasks` - Get all tasks
+
+- `POST /api/tasks` - Create task│   │   ├── services/     # Business logic (AI, XP, inventory, streaks)npm run dev- **Stat Growth**: Different tasks boost different stats
+
+- `PUT /api/tasks/:id` - Update task
+
+- `DELETE /api/tasks/:id` - Delete task│   │   ├── routes/       # API endpoints (auth, tasks, story, inventory)
+
+- `POST /api/tasks/:id/complete` - Complete task
+
+│   │   ├── middleware/   # Auth, rate limiting, error handling```- **Equipment**: Unlock items through story progression
+
+### Inventory
+
+- `GET /api/inventory` - Get inventory│   │   ├── types/        # TypeScript definitions
+
+- `POST /api/inventory/equip/:itemId` - Equip item
+
+- `POST /api/inventory/unequip/:itemId` - Unequip item│   │   └── utils/        # Helper functions- **Inventory System**: Collect loot from challenges
+
+
+
+📚 Full API docs: [API Reference](./backend/docs/API_REFERENCE.md)  │   ├── prisma/           # Database schema and migrations
+
+🧪 Postman collection: [Import here](./backend/postman/hybrid-story-system.postman_collection.json)
+
+│   ├── docs/             # Backend documentationFrontend will run on `http://localhost:5173`
+
+## 📚 Documentation
+
+│   └── package.json
+
+- [Quick Start Guide](./backend/docs/QUICK_START.md) - Get running in 5 minutes
+
+- [API Reference](./backend/docs/API_REFERENCE.md) - All endpoints with examples│### ⚔️ Combat & Challenges
+
+- [Hybrid Story System](./backend/docs/HYBRID_STORY_SYSTEM.md) - Feature deep dive
+
+- [Gemini AI Service](./backend/docs/GEMINI_AI_SERVICE.md) - Story generation details├── frontend/             # React + TypeScript + Vite (coming soon)
+
+- [XP Calculator](./backend/docs/XP_CALCULATOR.md) - Leveling mechanics
+
+│   ├── src/## 🛠️ Tech Stack- **Stat-Based Combat**: STR/AGI/END/LUCK determine battle outcomes
+
+## ⚙️ Configuration
+
+│   └── package.json
+
+Create `.env` in the `backend/` folder:
+
+│- **AI Narratives**: Exciting battle descriptions for every encounter
+
+```env
+
+# Server└── README.md             # This file
+
+NODE_ENV=development
+
+PORT=3000```### Backend- **Enemy Variety**: Different enemies with unique abilities
+
+
+
+# Database
+
+DATABASE_URL="file:./dev.db"
+
+---- **Runtime:** Node.js + TypeScript- **Difficulty Tiers**: EASY → MEDIUM → HARD → EPIC challenges
+
+# JWT
+
+JWT_SECRET=your_secret_key
+
+JWT_REFRESH_SECRET=your_refresh_secret
+
+JWT_EXPIRES_IN=7d## 🚀 Quick Start- **Framework:** Express.js- **Rewards**: XP, gold, equipment, and story progression
+
+JWT_REFRESH_EXPIRES_IN=30d
+
+
+
+# Google Gemini AI
+
+GEMINI_API_KEY=your_api_key_here### Prerequisites- **Database:** PostgreSQL with Prisma ORM
+
+```
+
+
+
+Get your Gemini API key at [Google AI Studio](https://makersuite.google.com/app/apikey)
+
+- **Node.js** 18+ LTS- **AI:** Google Gemini 2.5 Flash## 🛠 Technology Stack
+
+## 🧪 Development
+
+- **npm** 8+
+
+```bash
+
+# Backend- **Google Gemini API Key** - Get from [Google AI Studio](https://makersuite.google.com/app/apikey)- **Auth:** JWT
+
+cd backend
+
+npm run dev          # Dev server with hot reload
+
+npm run build        # Build for production
+
+npm start            # Start production server### Backend Setup (5 minutes)### Backend
+
+
+
+# Database
+
+npx prisma migrate dev       # Create migration
+
+npx prisma studio            # Database GUI```bash### Frontend- **Runtime**: Node.js 18+ with TypeScript 5.0
+
+npx tsx prisma/seed.ts       # Seed demo data
+
+# 1. Clone the repository
+
+# Code quality
+
+npm run lint         # Run ESLintgit clone https://github.com/islamborghini/playo.git- **Framework:** React 18 + TypeScript- **Framework**: Express.js with async/await
+
+npm run format       # Format with Prettier
+
+npm test             # Run testscd playo/backend
+
+```
+
+- **Build Tool:** Vite- **Database**: SQLite (dev) / PostgreSQL (prod) via Prisma ORM
+
+## 🔒 Security
+
+# 2. Install dependencies
+
+- **Rate Limiting:** 100 req/15min (general), 5 req/15min (auth), 10 req/hour (AI)
+
+- **Authentication:** JWT with 7-day access tokens, 30-day refresh tokensnpm install- **Styling:** Tailwind CSS- **Authentication**: JWT with bcrypt password hashing
+
+- **Password Hashing:** bcrypt with 12 rounds
+
+- **Error Handling:** Custom error classes with Prisma error mapping
+
+
+
+## 🐛 Troubleshooting# 3. Set up environment variables- **State:** React Query + Context API- **AI Service**: Google Gemini 1.5 Flash for story generation
+
+
+
+**"GEMINI_API_KEY is not configured"**  cp .env.example .env
+
+Add your API key to `backend/.env`
+
+# Add your GEMINI_API_KEY to .env- **Routing:** React Router v6
+
+**"Rate limit exceeded"**  
+
+Check usage: `curl http://localhost:3000/api/ai/rate-limit -H "Authorization: Bearer YOUR_TOKEN"`
+
+
+
+**Database connection error**  # 4. Set up database### Architecture
+
+Reset database: `cd backend && npx prisma migrate reset --force && npx tsx prisma/seed.ts`
+
+npx prisma migrate dev
+
+## 🤝 Contributing
+
+## 📖 Documentation- RESTful API design
+
+1. Fork the repository
+
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)# 5. Seed demo data
+
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+
+4. Push to branch (`git push origin feature/amazing-feature`)npx tsx prisma/seed.ts- Service layer pattern for business logic
+
+5. Open a Pull Request
+
+
+
+### Code Standards
+
+- TypeScript with strict mode# 6. Start server- [Backend API Documentation](./backend/docs/API_REFERENCE.md)- Prisma for type-safe database access
+
+- ESLint + Prettier formatting
+
+- Comprehensive error handlingnpm run dev
+
+- Clear commit messages
+
 ```- [Quick Start Guide](./backend/docs/QUICK_START.md)- Rate limiting & retry logic for AI API
 
+## 📄 License
 
+
+
+MIT License - see [LICENSE](LICENSE) for details
 
 **Server runs on:** `http://localhost:3000`- Frontend documentation coming soon- Comprehensive error handling
 
+## 🙏 Acknowledgments
 
 
-### First API Test
+
+- Google Gemini AI - Story generation
+
+- Prisma - Type-safe ORM### First API Test
+
+- Express.js - Web framework
 
 
+
+---
 
 ```bash## 🎯 Features## 🚀 Quick Start
 
+<div align="center">
+
 # 1. Login with demo account
+
+**[Documentation](./backend/docs/) • [API Reference](./backend/docs/API_REFERENCE.md) • [Quick Start](./backend/docs/QUICK_START.md)**
 
 curl -X POST http://localhost:3000/api/auth/login \
 
+Made with ❤️ for habit formation and gaming
+
   -H "Content-Type: application/json" \
+
+</div>
 
   -d '{"email": "demo@example.com", "password": "Demo@123456"}'- ✅ **AI-Generated Stories** - Personalized adventures based on your progress### Prerequisites
 
