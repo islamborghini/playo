@@ -3,13 +3,13 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
-import rateLimit from 'express-rate-limit';
 import { config } from '@/utils/config';
 import { ApiResponse } from '@/types';
 
 // Import middleware
 import { errorHandler } from '@/middleware/errorHandler';
 import { notFoundHandler } from '@/middleware/notFoundHandler';
+import { generalRateLimiter, authRateLimiter, aiRateLimiter } from '@/middleware/rateLimiter';
 
 // Import routes
 import authRoutes from '@/routes/auth';
@@ -44,19 +44,7 @@ class App {
       })
     );
 
-    // Rate limiting
-    const limiter = rateLimit({
-      windowMs: config.RATE_LIMIT_WINDOW_MS,
-      max: config.RATE_LIMIT_MAX_REQUESTS,
-      message: {
-        success: false,
-        message: 'Too many requests from this IP, please try again later.',
-        timestamp: new Date().toISOString(),
-      },
-      standardHeaders: true,
-      legacyHeaders: false,
-    });
-    this.app.use(limiter);
+    // Rate limiting - applied per route in initializeRoutes()
 
     // Compression
     this.app.use(compression());
@@ -115,15 +103,17 @@ class App {
   }
 
   private initializeRoutes(): void {
-    // API routes
-    this.app.use('/api/auth', authRoutes);
-    this.app.use('/api/users', userRoutes);
-    this.app.use('/api/tasks', taskRoutes);
-    this.app.use('/api/stories', storyRoutes);
-    this.app.use('/api/character', characterRoutes);
-    this.app.use('/api/inventory', inventoryRoutes);
-    this.app.use('/api/ai', aiRoutes);
-    this.app.use('/api/catalog', itemCatalogRoutes);
+    // API routes with specific rate limiters
+    this.app.use('/api/auth', authRateLimiter, authRoutes);
+    this.app.use('/api/ai', aiRateLimiter, aiRoutes);
+    this.app.use('/api/stories', aiRateLimiter, storyRoutes);
+    
+    // General rate limiter for other routes
+    this.app.use('/api/users', generalRateLimiter, userRoutes);
+    this.app.use('/api/tasks', generalRateLimiter, taskRoutes);
+    this.app.use('/api/character', generalRateLimiter, characterRoutes);
+    this.app.use('/api/inventory', generalRateLimiter, inventoryRoutes);
+    this.app.use('/api/catalog', generalRateLimiter, itemCatalogRoutes);
 
     // Catch all unmatched routes
     this.app.use('*', notFoundHandler);
