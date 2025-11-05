@@ -4,80 +4,65 @@
 /* Custom RPG Theme Configuration */
 @theme {
   /* Fantasy RPG Color Palette */
-  --color-primary: #8b5cf6; /* Violet - Magic */
+  --color-primary: #8b5cf6;
   --color-primary-dark: #6d28d9;
   --color-primary-light: #a78bfa;
   
-  --color-secondary: #f59e0b; /* Amber - Gold/Treasure */
+  --color-secondary: #f59e0b;
   --color-secondary-dark: #d97706;
   --color-secondary-light: #fbbf24;
   
-  --color-accent: #ec4899; /* Pink - Energy/Power */
-  --color-accent-dark: #db2777;
-  --color-accent-light: #f9a8d4;
-  
-  --color-success: #10b981; /* Emerald - Health/Success */
-  --color-warning: #f59e0b; /* Amber - Caution */
-  --color-danger: #ef4444; /* Red - Damage/Critical */
-  --color-info: #3b82f6; /* Blue - Mana/Magic */
-  
   /* Stat Colors */
-  --color-strength: #dc2626; /* Red */
-  --color-wisdom: #8b5cf6; /* Purple */
-  --color-agility: #10b981; /* Green */
-  --color-endurance: #f59e0b; /* Orange */
-  --color-luck: #fbbf24; /* Yellow */
-  --color-charisma: #ec4899; /* Pink */
+  --color-strength: #dc2626;
+  --color-wisdom: #8b5cf6;
+  --color-agility: #10b981;
+  --color-endurance: #f59e0b;
+  --color-luck: #fbbf24;
+  --color-charisma: #ec4899;
   
   /* XP & Level Colors */
-  --color-xp: #3b82f6; /* Blue */
-  --color-level-up: #fbbf24; /* Gold */
+  --color-xp: #3b82f6;
+  --color-level-up: #fbbf24;
   
   /* Rarity Colors */
-  --color-common: #9ca3af; /* Gray */
-  --color-uncommon: #10b981; /* Green */
-  --color-rare: #3b82f6; /* Blue */
-  --color-epic: #8b5cf6; /* Purple */
-  --color-legendary: #f59e0b; /* Gold */
-  
-  /* Dark Theme (Fantasy dungeon aesthetic) */
-  --color-bg-primary: #0f172a; /* Slate 900 */
-  --color-bg-secondary: #1e293b; /* Slate 800 */
-  --color-bg-tertiary: #334155; /* Slate 700 */
-  
-  --color-text-primary: #f1f5f9; /* Slate 100 */
-  --color-text-secondary: #cbd5e1; /* Slate 300 */
-  --color-text-muted: #94a3b8; /* Slate 400 */
-  
-  /* Border & Shadow */
-  --color-border: #475569; /* Slate 600 */
-  --color-border-light: #64748b; /* Slate 500 */
-  
-  /* Custom Font Families */
-  --font-fantasy: 'Cinzel', 'Georgia', serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'Fira Code', monospace;
-  
-  /* Custom Spacing for RPG UI */
-  --spacing-rpg-xs: 0.25rem;
-  --spacing-rpg-sm: 0.5rem;
-  --spacing-rpg-md: 1rem;
-  --spacing-rpg-lg: 1.5rem;
-  --spacing-rpg-xl: 2rem;
-  
-  /* Border Radius for RPG elements */
-  --radius-card: 1rem;
-  --radius-button: 0.5rem;
-  --radius-badge: 9999px;
+  --color-common: #9ca3af;
+  --color-uncommon: #10b981;
+  --color-rare: #3b82f6;
+  --color-epic: #8b5cf6;
+  --color-legendary: #f59e0b;
 }
 
-/* Base Styles */
+/* Base Styles & Color Variables */
 :root {
-  font-family: var(--font-body);
+  font-family: 'Inter', system-ui, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* Background Colors */
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-bg-tertiary: #334155;
+  
+  /* Text Colors */
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  
+  /* Border Colors */
+  --color-border: #475569;
+  --color-border-light: #64748b;
+  
+  /* Apply background */
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
 }

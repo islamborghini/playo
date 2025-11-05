@@ -3,7 +3,8 @@
  * Centralized HTTP client with interceptors for auth and error handling
  */
 
-import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError } from 'axios';
+import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import type { ApiError } from '../types';
 
 // Base URL from environment variable or default to localhost

@@ -16,29 +16,39 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
       <div className="max-w-4xl w-full space-y-8 animate-slide-up">
         {/* Header */}
         <div className="text-center space-y-4">
-          <h1 className="text-6xl font-bold text-[var(--color-text-primary)] animate-float">
+          <h1 className="text-6xl font-bold text-slate-100 animate-float">
             ⚔️ Playo
           </h1>
-          <p className="text-2xl text-[var(--color-text-secondary)]">
+          <p className="text-2xl text-slate-300">
             Fantasy RPG Theme - Tailwind CSS v4
           </p>
+        </div>
+
+        {/* Quick Links */}
+        <div className="flex justify-center gap-4">
+          <a href="/api-test" className="rpg-button px-6 py-3 inline-block">
+            🧪 Test API
+          </a>
+          <a href="/login" className="rpg-button px-6 py-3 inline-block">
+            🔐 Login
+          </a>
         </div>
 
         {/* Character Card */}
         <div className="rpg-card p-8 space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-3xl font-bold text-[var(--color-text-primary)]">
+              <h2 className="text-3xl font-bold text-slate-100">
                 Hero of Habits
               </h2>
-              <p className="text-[var(--color-text-secondary)]">Legendary Warrior</p>
+              <p className="text-slate-300">Legendary Warrior</p>
             </div>
             <div className="text-right">
-              <div className="text-4xl font-bold text-[var(--color-level-up)] animate-pulse-glow">
+              <div className="text-4xl font-bold text-yellow-400 animate-pulse-glow">
                 Level {level}
               </div>
             </div>
@@ -46,7 +56,7 @@ function App() {
 
           {/* XP Bar */}
           <div className="space-y-2">
-            <div className="flex justify-between text-sm text-[var(--color-text-secondary)]">
+            <div className="flex justify-between text-sm text-slate-300">
               <span>Experience Points</span>
               <span>{xp} / {maxXp} XP</span>
             </div>
@@ -60,46 +70,46 @@ function App() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="stat-badge" style={{ borderColor: 'var(--color-strength)' }}>
+            <div className="stat-badge border-red-600">
               <span className="text-2xl">💪</span>
               <div>
-                <div className="text-xs text-[var(--color-text-muted)]">STR</div>
-                <div className="text-xl font-bold" style={{ color: 'var(--color-strength)' }}>25</div>
+                <div className="text-xs text-slate-400">STR</div>
+                <div className="text-xl font-bold text-red-600">25</div>
               </div>
             </div>
-            <div className="stat-badge" style={{ borderColor: 'var(--color-wisdom)' }}>
+            <div className="stat-badge border-purple-600">
               <span className="text-2xl">🧙</span>
               <div>
-                <div className="text-xs text-[var(--color-text-muted)]">WIS</div>
-                <div className="text-xl font-bold" style={{ color: 'var(--color-wisdom)' }}>18</div>
+                <div className="text-xs text-slate-400">WIS</div>
+                <div className="text-xl font-bold text-purple-600">18</div>
               </div>
             </div>
-            <div className="stat-badge" style={{ borderColor: 'var(--color-agility)' }}>
+            <div className="stat-badge border-green-600">
               <span className="text-2xl">⚡</span>
               <div>
-                <div className="text-xs text-[var(--color-text-muted)]">AGI</div>
-                <div className="text-xl font-bold" style={{ color: 'var(--color-agility)' }}>22</div>
+                <div className="text-xs text-slate-400">AGI</div>
+                <div className="text-xl font-bold text-green-600">22</div>
               </div>
             </div>
-            <div className="stat-badge" style={{ borderColor: 'var(--color-endurance)' }}>
+            <div className="stat-badge border-orange-600">
               <span className="text-2xl">🛡️</span>
               <div>
-                <div className="text-xs text-[var(--color-text-muted)]">END</div>
-                <div className="text-xl font-bold" style={{ color: 'var(--color-endurance)' }}>20</div>
+                <div className="text-xs text-slate-400">END</div>
+                <div className="text-xl font-bold text-orange-600">20</div>
               </div>
             </div>
-            <div className="stat-badge" style={{ borderColor: 'var(--color-luck)' }}>
+            <div className="stat-badge border-yellow-600">
               <span className="text-2xl">🍀</span>
               <div>
-                <div className="text-xs text-[var(--color-text-muted)]">LCK</div>
-                <div className="text-xl font-bold" style={{ color: 'var(--color-luck)' }}>15</div>
+                <div className="text-xs text-slate-400">LCK</div>
+                <div className="text-xl font-bold text-yellow-600">15</div>
               </div>
             </div>
-            <div className="stat-badge" style={{ borderColor: 'var(--color-charisma)' }}>
+            <div className="stat-badge border-pink-600">
               <span className="text-2xl">✨</span>
               <div>
-                <div className="text-xs text-[var(--color-text-muted)]">CHA</div>
-                <div className="text-xl font-bold" style={{ color: 'var(--color-charisma)' }}>16</div>
+                <div className="text-xs text-slate-400">CHA</div>
+                <div className="text-xl font-bold text-pink-600">16</div>
               </div>
             </div>
           </div>
@@ -115,7 +125,7 @@ function App() {
 
         {/* Item Rarity Examples */}
         <div className="glass-card p-6 space-y-4">
-          <h3 className="text-xl font-bold text-[var(--color-text-primary)] mb-4">
+          <h3 className="text-xl font-bold text-slate-100 mb-4">
             🎒 Item Rarity System
           </h3>
           <div className="flex flex-wrap gap-4">
@@ -128,7 +138,7 @@ function App() {
         </div>
 
         {/* Theme Info */}
-        <div className="text-center text-[var(--color-text-muted)] text-sm space-y-2">
+        <div className="text-center text-slate-400 text-sm space-y-2">
           <p>✅ Tailwind CSS v4 with Custom RPG Theme</p>
           <p>✅ Custom Animations & Utility Classes</p>
           <p>✅ Fantasy Color Palette & Typography</p>
