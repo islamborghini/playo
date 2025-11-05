@@ -89,3 +89,8 @@ export const updateProfile = async (data: Partial<User>): Promise<User> => {
 export const changePassword = async (oldPassword: string, newPassword: string): Promise<void> => {
   await apiClient.put('/auth/change-password', { oldPassword, newPassword });
 };
+
+/**
+ * Get user profile (alias for getCurrentUser)
+ */
+export const getProfile = getCurrentUser;
