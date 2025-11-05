@@ -2,20 +2,34 @@
  * Challenge Page - Combat encounters
  */
 
+import Layout from '../components/Layout'
+
 const Challenge = () => {
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)] p-6">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-[var(--color-text-primary)] mb-8">
-          ⚔️ Battle Arena
-        </h1>
-        
-        <div className="rpg-card p-8">
-          <p className="text-[var(--color-text-secondary)]">Combat interface coming soon...</p>
+    <Layout>
+      <div className="space-y-6">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
+          <h1 className="text-3xl font-bold text-slate-100 mb-2">
+            🏆 Daily Challenge
+          </h1>
+          <p className="text-slate-400">
+            Complete special challenges for bonus XP and rewards
+          </p>
+        </div>
+
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-8">
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">🎯</div>
+            <p className="text-slate-300 text-lg mb-2">No active challenges</p>
+            <p className="text-slate-400 mb-6">
+              Check back tomorrow for new challenges!
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    </Layout>
+  )
+}
 
-export default Challenge;
+export default Challenge
+
