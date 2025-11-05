@@ -33,21 +33,49 @@ export const useAuth = () => {
   }, [])
 
   const login = async (credentials: LoginCredentials) => {
+    console.log('🔑 useAuth.login called')
     const response = await authApi.login(credentials)
-    if (response.success && response.data.token) {
-      localStorage.setItem('token', response.data.token)
-      setUser(response.data.user)
-      // Navigation handled in Login page
+    console.log('📦 Login response:', response)
+    console.log('📦 response.data:', response.data)
+    
+    // The response structure is: { success, message, data: { user, tokens: { accessToken, refreshToken } } }
+    const { user, tokens } = response.data
+    const token = tokens?.accessToken
+    
+    console.log('👤 user:', user)
+    console.log('🔑 token:', token)
+    
+    if (!user || !token) {
+      console.error('❌ Invalid response structure:', response)
+      console.error('❌ user is:', user)
+      console.error('❌ token is:', token)
+      throw new Error('Invalid login response')
     }
+    
+    console.log('✅ Setting token and user:', { user, token })
+    localStorage.setItem('token', token)
+    setUser(user)
+    // Navigation handled in Login page
   }
 
   const register = async (data: RegisterData) => {
+    console.log('🔑 useAuth.register called')
     const response = await authApi.register(data)
-    if (response.success && response.data.token) {
-      localStorage.setItem('token', response.data.token)
-      setUser(response.data.user)
-      // Navigation handled in Register page
+    console.log('📦 Register response:', response)
+    
+    // The response structure is: { success, message, data: { user, tokens: { accessToken, refreshToken } } }
+    const { user, tokens } = response.data
+    const token = tokens?.accessToken
+    
+    if (!user || !token) {
+      console.error('❌ Invalid response structure:', response)
+      throw new Error('Invalid register response')
     }
+    
+    console.log('✅ Setting token and user:', { user, token })
+    localStorage.setItem('token', token)
+    setUser(user)
+    // Navigation handled in Register page
   }
 
   const logout = () => {

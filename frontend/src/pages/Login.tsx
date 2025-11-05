@@ -21,13 +21,16 @@ const Login = () => {
     setIsLoading(true)
 
     try {
+      console.log('🔐 Attempting login...')
       await login({ email, password })
+      console.log('✅ Login successful, navigating to dashboard...')
       // Navigate to dashboard after successful login
       navigate('/dashboard')
+      console.log('🚀 Navigate called')
     } catch (err) {
       const error = err as { response?: { data?: { message?: string } } }
       setError(error.response?.data?.message || 'Login failed. Please check your credentials.')
-      console.error('Login error:', err)
+      console.error('❌ Login error:', err)
     } finally {
       setIsLoading(false)
     }

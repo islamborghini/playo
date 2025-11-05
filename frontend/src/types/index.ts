@@ -38,7 +38,10 @@ export interface AuthResponse {
   success: boolean;
   data: {
     user: User;
-    token: string;
+    tokens: {
+      accessToken: string;
+      refreshToken: string;
+    };
   };
   message: string;
 }
