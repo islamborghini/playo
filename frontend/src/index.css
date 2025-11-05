@@ -1,15 +1,319 @@
-/* Tailwind CSS v4 - No config file needed! */
+/* Tailwind CSS v4 - Fantasy RPG Theme */
 @import "tailwindcss";
 
-/* Custom CSS variables and theme */
+/* Custom RPG Theme Configuration */
 @theme {
-  /* You can add custom colors, fonts, etc. here */
+  /* Fantasy RPG Color Palette */
+  --color-primary: #8b5cf6; /* Violet - Magic */
+  --color-primary-dark: #6d28d9;
+  --color-primary-light: #a78bfa;
+  
+  --color-secondary: #f59e0b; /* Amber - Gold/Treasure */
+  --color-secondary-dark: #d97706;
+  --color-secondary-light: #fbbf24;
+  
+  --color-accent: #ec4899; /* Pink - Energy/Power */
+  --color-accent-dark: #db2777;
+  --color-accent-light: #f9a8d4;
+  
+  --color-success: #10b981; /* Emerald - Health/Success */
+  --color-warning: #f59e0b; /* Amber - Caution */
+  --color-danger: #ef4444; /* Red - Damage/Critical */
+  --color-info: #3b82f6; /* Blue - Mana/Magic */
+  
+  /* Stat Colors */
+  --color-strength: #dc2626; /* Red */
+  --color-wisdom: #8b5cf6; /* Purple */
+  --color-agility: #10b981; /* Green */
+  --color-endurance: #f59e0b; /* Orange */
+  --color-luck: #fbbf24; /* Yellow */
+  --color-charisma: #ec4899; /* Pink */
+  
+  /* XP & Level Colors */
+  --color-xp: #3b82f6; /* Blue */
+  --color-level-up: #fbbf24; /* Gold */
+  
+  /* Rarity Colors */
+  --color-common: #9ca3af; /* Gray */
+  --color-uncommon: #10b981; /* Green */
+  --color-rare: #3b82f6; /* Blue */
+  --color-epic: #8b5cf6; /* Purple */
+  --color-legendary: #f59e0b; /* Gold */
+  
+  /* Dark Theme (Fantasy dungeon aesthetic) */
+  --color-bg-primary: #0f172a; /* Slate 900 */
+  --color-bg-secondary: #1e293b; /* Slate 800 */
+  --color-bg-tertiary: #334155; /* Slate 700 */
+  
+  --color-text-primary: #f1f5f9; /* Slate 100 */
+  --color-text-secondary: #cbd5e1; /* Slate 300 */
+  --color-text-muted: #94a3b8; /* Slate 400 */
+  
+  /* Border & Shadow */
+  --color-border: #475569; /* Slate 600 */
+  --color-border-light: #64748b; /* Slate 500 */
+  
+  /* Custom Font Families */
+  --font-fantasy: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Fira Code', monospace;
+  
+  /* Custom Spacing for RPG UI */
+  --spacing-rpg-xs: 0.25rem;
+  --spacing-rpg-sm: 0.5rem;
+  --spacing-rpg-md: 1rem;
+  --spacing-rpg-lg: 1.5rem;
+  --spacing-rpg-xl: 2rem;
+  
+  /* Border Radius for RPG elements */
+  --radius-card: 1rem;
+  --radius-button: 0.5rem;
+  --radius-badge: 9999px;
 }
 
-/* Your custom styles */
+/* Base Styles */
 :root {
+  font-family: var(--font-body);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+/* Custom Animations */
+@keyframes xp-fill {
+  0% {
+    width: 0%;
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes level-up {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Custom Utility Classes */
+.animate-xp-fill {
+  animation: xp-fill 1s ease-out forwards;
+}
+
+.animate-level-up {
+  animation: level-up 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-sparkle {
+  animation: sparkle 1s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in;
+}
+
+/* RPG Card Styles */
+.rpg-card {
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.rpg-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 12px rgba(139, 92, 246, 0.3), 0 4px 6px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* RPG Button Styles */
+.rpg-button {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  border: 2px solid var(--color-primary-light);
+  border-radius: var(--radius-button);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.rpg-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.rpg-button:hover::before {
+  left: 100%;
+}
+
+.rpg-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(139, 92, 246, 0.4);
+}
+
+.rpg-button:active {
+  transform: translateY(0);
+}
+
+/* XP Bar Styles */
+.xp-bar {
+  position: relative;
+  height: 1.5rem;
+  background: var(--color-bg-tertiary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-button);
+  overflow: hidden;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-xp), var(--color-primary));
+  border-radius: var(--radius-button);
+  transition: width 1s ease-out;
+  box-shadow: 0 0 10px var(--color-xp);
+}
+
+/* Stat Badge Styles */
+.stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-badge);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.stat-badge:hover {
+  transform: scale(1.05);
+  border-color: var(--color-primary-light);
+}
+
+/* Rarity Glow Effect */
+.rarity-common { color: var(--color-common); }
+.rarity-uncommon { color: var(--color-uncommon); }
+.rarity-rare { color: var(--color-rare); }
+.rarity-epic { color: var(--color-epic); }
+.rarity-legendary { 
+  color: var(--color-legendary);
+  text-shadow: 0 0 10px var(--color-legendary);
+}
+
+/* Glass Morphism Effect */
+.glass-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-card);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-light);
+}
+
+/* Text Selection */
+::selection {
+  background-color: var(--color-primary);
+  color: white;
 }
