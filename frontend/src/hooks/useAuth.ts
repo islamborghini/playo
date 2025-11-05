@@ -5,6 +5,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as authApi from '../api/auth'
+import { setAuthToken, clearAuthToken } from '../api/client'
 import type { User, LoginCredentials, RegisterData } from '../types'
 
 export const useAuth = () => {
@@ -15,14 +16,14 @@ export const useAuth = () => {
   // Auto-login on mount if token exists
   useEffect(() => {
     const autoLogin = async () => {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('authToken') // Use 'authToken' key to match client.ts
       if (token) {
         try {
           const userData = await authApi.getProfile()
           setUser(userData)
         } catch (error) {
           // Token invalid or expired, clear it
-          localStorage.removeItem('token')
+          clearAuthToken()
           console.error('Auto-login failed:', error)
         }
       }
@@ -53,7 +54,7 @@ export const useAuth = () => {
     }
     
     console.log('✅ Setting token and user:', { user, token })
-    localStorage.setItem('token', token)
+    setAuthToken(token) // Save to localStorage AND set in Axios headers
     setUser(user)
     // Navigation handled in Login page
   }
@@ -73,14 +74,14 @@ export const useAuth = () => {
     }
     
     console.log('✅ Setting token and user:', { user, token })
-    localStorage.setItem('token', token)
+    setAuthToken(token) // Save to localStorage AND set in Axios headers
     setUser(user)
     // Navigation handled in Register page
   }
 
   const logout = () => {
     authApi.logout()
-    localStorage.removeItem('token')
+    clearAuthToken() // Clear token from localStorage AND Axios headers
     setUser(null)
     navigate('/login')
   }

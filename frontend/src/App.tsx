@@ -1,34 +1,36 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
-import { ProtectedRoute } from './components/ProtectedRoute'
+import ProtectedRoute from './components/ProtectedRoute'
 
 // Pages
-import LoginPage from './pages/Login'
-import RegisterPage from './pages/Register'
-import DashboardPage from './pages/Dashboard'
-import TasksPage from './pages/Tasks'
-import StoryPage from './pages/Story'
-import CharacterPage from './pages/Character'
-import ChallengePage from './pages/Challenge'
-import APITestPage from './pages/APITest'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Dashboard from './pages/Dashboard'
+import Tasks from './pages/Tasks'
+import Story from './pages/Story'
+import Character from './pages/Character'
+import Challenge from './pages/Challenge'
 import DemoPage from './pages/Demo'
+import ApiTest from './pages/APITest'
 
 function App() {
+  console.log('🚀 App Component Rendering')
+  
   return (
     <AuthProvider>
       <Routes>
         {/* Public Routes */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/demo" element={<DemoPage />} />
-        <Route path="/api-test" element={<APITestPage />} />
+        <Route path="/api-test" element={<ApiTest />} />
 
         {/* Protected Routes */}
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <DashboardPage />
+              <Dashboard />
             </ProtectedRoute>
           }
         />
@@ -36,7 +38,7 @@ function App() {
           path="/tasks"
           element={
             <ProtectedRoute>
-              <TasksPage />
+              <Tasks />
             </ProtectedRoute>
           }
         />
@@ -44,7 +46,7 @@ function App() {
           path="/story"
           element={
             <ProtectedRoute>
-              <StoryPage />
+              <Story />
             </ProtectedRoute>
           }
         />
@@ -52,7 +54,7 @@ function App() {
           path="/character"
           element={
             <ProtectedRoute>
-              <CharacterPage />
+              <Character />
             </ProtectedRoute>
           }
         />
@@ -60,7 +62,7 @@ function App() {
           path="/challenge"
           element={
             <ProtectedRoute>
-              <ChallengePage />
+              <Challenge />
             </ProtectedRoute>
           }
         />

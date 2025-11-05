@@ -28,14 +28,25 @@ apiClient.interceptors.request.use(
     // Get token from localStorage
     const token = localStorage.getItem('authToken');
     
+    console.log('📤 API Request:', {
+      url: config.url,
+      method: config.method,
+      hasToken: !!token,
+      currentAuthHeader: config.headers?.Authorization,
+    });
+    
     // Add Authorization header if token exists
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log('🔑 Token attached to request:', token.substring(0, 20) + '...');
+    } else if (!token) {
+      console.log('⚠️ No token found in localStorage');
     }
     
     return config;
   },
   (error: AxiosError) => {
+    console.error('❌ Request interceptor error:', error);
     return Promise.reject(error);
   }
 );
@@ -46,10 +57,22 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => {
+    console.log('✅ API Response:', {
+      url: response.config.url,
+      status: response.status,
+      hasData: !!response.data,
+    });
     // Return successful response data
     return response;
   },
   (error: AxiosError<ApiError>) => {
+    console.error('❌ API Error:', {
+      url: error.config?.url,
+      method: error.config?.method,
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+    });
+    
     // Handle different error scenarios
     if (error.response) {
       // Server responded with error status
@@ -58,6 +81,7 @@ apiClient.interceptors.response.use(
       switch (status) {
         case 401:
           // Unauthorized - clear token and redirect to login
+          console.log('🚫 401 Unauthorized - Clearing token');
           localStorage.removeItem('authToken');
           localStorage.removeItem('user');
           window.location.href = '/login';
@@ -118,15 +142,21 @@ apiClient.interceptors.response.use(
  * Set authentication token
  */
 export const setAuthToken = (token: string) => {
+  console.log('💾 Saving token to localStorage:', token.substring(0, 20) + '...');
   localStorage.setItem('authToken', token);
+  // Also set it in axios defaults for immediate use
+  apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  console.log('✅ Token saved and set in Axios headers');
 };
 
 /**
  * Clear authentication token
  */
 export const clearAuthToken = () => {
+  console.log('🗑️ Clearing auth token');
   localStorage.removeItem('authToken');
   localStorage.removeItem('user');
+  delete apiClient.defaults.headers.common['Authorization'];
 };
 
 /**
