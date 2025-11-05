@@ -1,0 +1,15 @@
+/* Tailwind CSS v4 - No config file needed! */
+@import "tailwindcss";
+
+/* Custom CSS variables and theme */
+@theme {
+  /* You can add custom colors, fonts, etc. here */
+}
+
+/* Your custom styles */
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
