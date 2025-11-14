@@ -1,34 +1,87 @@
 /**
- * Custom hook for tasks management
+ * Custom hook for tasks management using React Query
  */
 
-import { useState } from 'react';
-import type { Task } from '../types';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import * as tasksApi from '../api/tasks'
+import type { CreateTaskData, TaskType, TaskDifficulty } from '../types'
 
-export const useTasks = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+interface TaskFilters {
+  type?: TaskType
+  category?: string
+  isActive?: boolean
+  difficulty?: TaskDifficulty
+}
 
-  // TODO: Implement with React Query
-  const fetchTasks = async () => {
-    setIsLoading(true);
-    try {
-      // API call will go here
-      console.log('Fetching tasks...');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+export const useTasks = (filters?: TaskFilters) => {
+  const queryClient = useQueryClient()
 
-  const completeTask = async (taskId: string) => {
-    console.log('Completing task:', taskId);
-    // API call will go here
-  };
+  // Fetch tasks with filters
+  const {
+    data: tasks = [],
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ['tasks', filters],
+    queryFn: () => tasksApi.getTasks(filters),
+    staleTime: 30000, // 30 seconds
+  })
+
+  // Create task mutation
+  const createTaskMutation = useMutation({
+    mutationFn: (data: CreateTaskData) => tasksApi.createTask(data),
+    onSuccess: () => {
+      // Invalidate and refetch tasks
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  })
+
+  // Update task mutation
+  const updateTaskMutation = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<CreateTaskData> }) =>
+      tasksApi.updateTask(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  })
+
+  // Delete task mutation
+  const deleteTaskMutation = useMutation({
+    mutationFn: (id: string) => tasksApi.deleteTask(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  })
+
+  // Complete task mutation
+  const completeTaskMutation = useMutation({
+    mutationFn: (id: string) => tasksApi.completeTask(id),
+    onSuccess: (response) => {
+      // Invalidate tasks and user profile to update XP
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+      queryClient.invalidateQueries({ queryKey: ['user'] })
+      return response
+    },
+  })
 
   return {
+    // Data
     tasks,
     isLoading,
-    fetchTasks,
-    completeTask,
-  };
-};
+    error,
+
+    // Actions
+    createTask: createTaskMutation.mutateAsync,
+    updateTask: updateTaskMutation.mutateAsync,
+    deleteTask: deleteTaskMutation.mutateAsync,
+    completeTask: completeTaskMutation.mutateAsync,
+    refetch,
+
+    // Mutation states
+    isCreating: createTaskMutation.isPending,
+    isUpdating: updateTaskMutation.isPending,
+    isDeleting: deleteTaskMutation.isPending,
+    isCompleting: completeTaskMutation.isPending,
+  }
+}

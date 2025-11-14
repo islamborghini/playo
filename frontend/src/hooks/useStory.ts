@@ -6,7 +6,7 @@ import { useState } from 'react';
 import type { Story } from '../types';
 
 export const useStory = () => {
-  const [story, setStory] = useState<Story | null>(null);
+  const [story] = useState<Story | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // TODO: Implement with React Query

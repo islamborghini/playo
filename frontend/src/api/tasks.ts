@@ -3,7 +3,7 @@
  */
 
 import apiClient from './client';
-import type { Task, CreateTaskData, TaskStats, CompleteTaskResponse, ApiResponse, PaginatedResponse } from '../types';
+import type { Task, CreateTaskData, TaskStats, CompleteTaskResponse, ApiResponse } from '../types';
 
 /**
  * Get all tasks for current user

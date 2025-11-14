@@ -10,13 +10,13 @@ import type { AuthResponse, LoginCredentials, RegisterData, User, ApiResponse } 
  */
 export const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
   const response = await apiClient.post<AuthResponse>('/auth/login', credentials);
-  
+
   // Store token and user data
-  if (response.data.success && response.data.data.token) {
-    setAuthToken(response.data.data.token);
+  if (response.data.success && response.data.data.tokens?.accessToken) {
+    setAuthToken(response.data.data.tokens.accessToken);
     localStorage.setItem('user', JSON.stringify(response.data.data.user));
   }
-  
+
   return response.data;
 };
 
@@ -25,13 +25,13 @@ export const login = async (credentials: LoginCredentials): Promise<AuthResponse
  */
 export const register = async (data: RegisterData): Promise<AuthResponse> => {
   const response = await apiClient.post<AuthResponse>('/auth/register', data);
-  
+
   // Store token and user data
-  if (response.data.success && response.data.data.token) {
-    setAuthToken(response.data.data.token);
+  if (response.data.success && response.data.data.tokens?.accessToken) {
+    setAuthToken(response.data.data.tokens.accessToken);
     localStorage.setItem('user', JSON.stringify(response.data.data.user));
   }
-  
+
   return response.data;
 };
 
@@ -60,12 +60,12 @@ export const getCurrentUser = async (): Promise<User> => {
  */
 export const refreshToken = async (): Promise<AuthResponse> => {
   const response = await apiClient.post<AuthResponse>('/auth/refresh');
-  
-  if (response.data.success && response.data.data.token) {
-    setAuthToken(response.data.data.token);
+
+  if (response.data.success && response.data.data.tokens?.accessToken) {
+    setAuthToken(response.data.data.tokens.accessToken);
     localStorage.setItem('user', JSON.stringify(response.data.data.user));
   }
-  
+
   return response.data;
 };
 
